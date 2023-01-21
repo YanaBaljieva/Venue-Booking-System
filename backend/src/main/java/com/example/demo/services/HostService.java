@@ -1,8 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.model.Host;
+import com.example.demo.models.Host;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 

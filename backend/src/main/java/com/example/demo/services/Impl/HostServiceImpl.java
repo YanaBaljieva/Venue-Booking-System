@@ -1,7 +1,8 @@
-package com.example.demo.services;
+package com.example.demo.services.Impl;
 
 import com.example.demo.models.Host;
 import com.example.demo.repository.HostRepository;
+import com.example.demo.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class HostServiceImpl implements HostService{
+public class HostServiceImpl implements HostService {
 
     @Autowired
     private HostRepository hostRepository;

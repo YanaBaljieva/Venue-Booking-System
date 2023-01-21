@@ -1,14 +1,11 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.Host;
-import com.example.demo.repository.HostRepository;
-import com.example.demo.services.HostServiceImpl;
+import com.example.demo.models.Host;
+import com.example.demo.services.Impl.HostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,7 +78,6 @@ public class HostController {
     }
 
     //get schedule
-    //post register/login
     //reserve the place
     //post review
     //get(display) reviews

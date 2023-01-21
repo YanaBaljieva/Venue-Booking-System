@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.User;
-import com.example.demo.services.UserServiceImpl;
+import com.example.demo.models.User;
+import com.example.demo.services.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +14,9 @@ public class UserController {
     @Autowired
     private UserServiceImpl userRepoService;
 
-    @PostMapping("/add")
-    public void saveUser(@RequestBody User user){
-        userRepoService.save(user);
-    }
-
     @GetMapping("/all")
     public List<User> getUsers() {
-
         return userRepoService.getUsers();
-    }
-
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) throws Exception {
-
-        User user = userRepoService.findViaId(id)
-                .orElseThrow(() -> new Exception("User not exist with id :" + id));;
-        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/users/{id}")
@@ -62,3 +48,4 @@ public class UserController {
     }
 
 }
+// TODO: remove or modify this file

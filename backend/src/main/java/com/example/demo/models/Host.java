@@ -1,11 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.w3c.dom.Text;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Document(collection = "hosts")
 public class Host {

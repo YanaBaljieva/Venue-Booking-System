@@ -1,27 +1,50 @@
-package com.example.demo.model;
+package com.example.demo.models;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "users")
 public class User {
     @Id
     private String id;
 
+    @NotBlank
+    @Size(max = 20)
+    private String username;
+    @NotBlank
+    @Size(max = 20)
     private String first_name;
+    @NotBlank
+    @Size(max = 20)
     private String last_name;
+
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
+
+    @NotBlank
+    @Size(max = 120)
     private String password;
+
+    @NotBlank
     private String phone;
 
+    @DBRef
+    private Set<Role> roles = new HashSet<>();
     public User(){
 
     }
 
-    public User(String id, String first_name, String last_name, String email, String password, String phone) {
-        this.id = id;
+    public User(String username, String first_name, String last_name, String email, String password, String phone) {
+        this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -77,4 +100,19 @@ public class User {
         this.phone = phone;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
