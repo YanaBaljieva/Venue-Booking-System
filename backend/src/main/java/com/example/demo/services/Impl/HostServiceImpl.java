@@ -1,18 +1,12 @@
 package com.example.demo.services;
 
-import com.example.demo.model.Host;
+import com.example.demo.models.Host;
 import com.example.demo.repository.HostRepository;
-import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class HostServiceImpl implements HostService{
