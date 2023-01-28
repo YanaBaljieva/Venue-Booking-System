@@ -1,9 +1,14 @@
 package com.example.demo.models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Document(collection = "hosts")
 public class Host {
@@ -16,20 +21,22 @@ public class Host {
     private String address;
     private String price;
 
-    //private List<Ratings> reviews;
+    @DBRef
+    private List<Review> reviews = new ArrayList<>();
     //add photos
     private LocalDate date; // updated can be put, or approved date
     private String description;
     private String user_id;
 
-    public Host(String id, String name, String city, String country, String address, String price /*List<Ratings> reviews*/, LocalDate date, String description, String user_id) {
+
+    public Host(String id, String name, String city, String country, String address, String price, List<Review> reviews, LocalDate date, String description, String user_id) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.country = country;
         this.address = address;
         this.price = price;
-       // this.reviews = reviews;
+        this.reviews = reviews;
         this.date = date;
         this.description = description;
         this.user_id = user_id;
@@ -84,13 +91,13 @@ public class Host {
         this.price = price;
     }
 
-//    public List<Ratings> getReviews() {
-//        return reviews;
-//    }
-//
-//    public void setReviews(List<Ratings> reviews) {
-//        this.reviews = reviews;
-//    }
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
     public LocalDate getDate_created() {
         return date;

@@ -18,12 +18,6 @@ public class User {
     @NotBlank
     @Size(max = 20)
     private String username;
-    @NotBlank
-    @Size(max = 20)
-    private String first_name;
-    @NotBlank
-    @Size(max = 20)
-    private String last_name;
 
     @NotBlank
     @Size(max = 50)
@@ -34,7 +28,7 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @NotBlank
+  //  @NotBlank
     private String phone;
 
     @DBRef
@@ -43,10 +37,8 @@ public class User {
 
     }
 
-    public User(String username, String first_name, String last_name, String email, String password, String phone) {
+    public User(String username, String email, String password, String phone) {
         this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.phone = phone;
@@ -58,22 +50,6 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
     }
 
     public String getEmail() {

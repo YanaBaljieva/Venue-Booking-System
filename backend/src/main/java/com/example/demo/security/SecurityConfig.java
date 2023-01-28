@@ -58,8 +58,11 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/signin/**").permitAll()
-                        .requestMatchers("/signup/**").permitAll()
+                        .requestMatchers("/api/signin/**").permitAll()
+                        .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers("/api/all_places/**").permitAll()
+                        .requestMatchers("/api/signup/**").permitAll()
+                        .requestMatchers("/api/signout/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());

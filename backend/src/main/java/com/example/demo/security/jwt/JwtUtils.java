@@ -49,7 +49,6 @@ public class JwtUtils {
         return cookie;
     }
 
-
     public String generateJwtToken(UserDetailsImpl userPrincipal) {
 
         return Jwts.builder()

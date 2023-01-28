@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.example.demo.Dto.request.LoginRequest;
 import com.example.demo.Dto.request.SignupRequest;
 import com.example.demo.Dto.response.JwtResponse;
+import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.services.Impl.UserDetailsImpl;
 import com.example.demo.services.Impl.UserServiceImpl;
@@ -20,9 +21,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class UserAuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -58,5 +59,12 @@ public class UserAuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         return userService.register(signUpRequest);
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> logoutUser() {
+        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(new MessageResponse("You've been signed out!"));
     }
 }

@@ -23,11 +23,7 @@ public class UserController {
     public User update(@PathVariable String id, @RequestBody User user){
         Optional<User> optcontact = userRepoService.findViaId(id);
         User u = optcontact.get();
-        if (user.getFirst_name() != null)
-            u.setFirst_name(user.getFirst_name());
-        if(user.getLast_name() != null){
-            u.setLast_name(user.getLast_name());
-        }
+
         if(user.getEmail() != null){
             u.setEmail(user.getEmail());
         }
