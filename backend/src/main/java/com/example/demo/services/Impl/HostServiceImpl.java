@@ -4,6 +4,8 @@ import com.example.demo.models.Host;
 import com.example.demo.repository.HostRepository;
 import com.example.demo.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public List<Host> getHosts() {
-        return hostRepository.findAll();
+    public Page<Host> getHosts(Pageable pageable) {
+        return hostRepository.findAll(pageable);
     }
 
     @Override
@@ -43,6 +45,11 @@ public class HostServiceImpl implements HostService {
     @Override
     public List<Host> sortByCity(String city) {
         return hostRepository.findByCity(city);
+    }
+
+    @Override
+    public Page<Host> findAllHosts(Pageable pageable, String keyword) {
+        return hostRepository.findAll(pageable, keyword);
     }
 
     @Override

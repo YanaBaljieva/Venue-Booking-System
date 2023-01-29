@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import com.example.demo.models.Host;
 import com.example.demo.services.Impl.HostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
-public class HostController {
+public class HostController{
 
     @Autowired
     private HostServiceImpl hostRepoService;
@@ -23,10 +25,11 @@ public class HostController {
     }
 
     @GetMapping("/all_places")
-    public List<Host> getAllPlaces() {
-
-        return hostRepoService.getHosts();
+    public Page<Host> getAllPlaces(Pageable pageable) {
+        return hostRepoService.getHosts(pageable);
     }
+
+
 
     @GetMapping("/hosts/{id}")
     public ResponseEntity<Host> getPlaceById(@PathVariable String id) throws Exception {
@@ -63,11 +66,11 @@ public class HostController {
         return ResponseEntity.ok("Deleted successfully");
     }
 
-
-    @GetMapping("/search/{name}")
-    public List<Host> searchPlace(@PathVariable String name){
-        return hostRepoService.searchResult(name);
+    @GetMapping("/search/{keyword}")
+    public Page<Host> searchPlace(Pageable pageable,@PathVariable("keyword") String keyword) {
+        return hostRepoService.findAllHosts(pageable, keyword);
     }
+
 
     @GetMapping("/sort_city/{city}")
     public List<Host> sortCity(@PathVariable String city){
