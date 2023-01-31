@@ -15,7 +15,7 @@ public interface HostRepository extends MongoRepository<Host, String> {
     List<Host> findAllByOrderByDateAsc();
 
 //    @Query("{ $or: [ { 'name': ?0 }, { 'city': ?0 }, { 'country': ?0 }] }")
-    @Query("{ $or: [ { 'name': {$regex: ?0, $options: 'i'} }, { 'city': {$regex: ?0, $options: 'i'} }, { 'country': {$regex: ?0, $options: 'i'}] }")
+    @Query("{ $or: [ { 'name': {$regex: ?0, $options: 'i'} }, { 'city': {$regex: ?0, $options: 'i'} }, { 'country': {$regex: ?0, $options: 'i'}}] }")
     Page<Host> findAll(Pageable pageable, String keyword);
 
 }
