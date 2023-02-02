@@ -5,7 +5,9 @@ import com.example.demo.repository.HostRepository;
 import com.example.demo.services.HostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,17 @@ public class HostServiceImpl implements HostService {
     @Override
     public Page<Host> getHosts(Pageable pageable) {
         return hostRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Host> findAllSort(int pageNumber, int pagesize, String sortBy, String sortDir) {
+        return hostRepository.findAll(
+                PageRequest.of(
+                        pageNumber, pagesize,
+                        sortDir.equalsIgnoreCase("asc") ?
+                                Sort.by(sortBy).ascending() :
+                                Sort.by(sortBy).descending()
+                ));
     }
 
     @Override

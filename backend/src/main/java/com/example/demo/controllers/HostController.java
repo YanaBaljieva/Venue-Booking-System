@@ -1,6 +1,9 @@
 package com.example.demo.controllers;
 
+import com.example.demo.Dto.request.AddHostRequest;
+import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.models.Host;
+import com.example.demo.models.User;
 import com.example.demo.services.Impl.HostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,15 +23,16 @@ public class HostController{
     private HostServiceImpl hostRepoService;
 
     @PostMapping("/add_host")
-    public void saveHost(@RequestBody Host host){
-        hostRepoService.save(host);
+    public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host){
+        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription(), host.getUser_id());
+        hostRepoService.save(h);
+        return ResponseEntity.ok().body(new MessageResponse("Host created!"));
     }
 
     @GetMapping("/all_places")
     public Page<Host> getAllPlaces(Pageable pageable) {
         return hostRepoService.getHosts(pageable);
     }
-
 
 
     @GetMapping("/hosts/{id}")
@@ -67,7 +71,7 @@ public class HostController{
     }
 
     @GetMapping("/search/{keyword}")
-    public Page<Host> searchPlace(Pageable pageable,@PathVariable("keyword") String keyword) {
+    public Page<Host> searchPlace(Pageable pageable, @PathVariable("keyword") String keyword) {
         return hostRepoService.findAllHosts(pageable, keyword);
     }
 
@@ -81,6 +85,12 @@ public class HostController{
     public List<Host> sortDate(){
         return hostRepoService.sortByDate();
     }
+
+    @GetMapping("/sort")
+    public Page<Host> sotDate(int pageNumber, int pageSize, String sortBy, String sortDir){
+        return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
+    }
+
 
     //get schedule
     //reserve the place

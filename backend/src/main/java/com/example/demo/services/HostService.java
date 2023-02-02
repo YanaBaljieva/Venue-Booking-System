@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface HostService {
     void save(Host host);
     Page<Host> getHosts(Pageable pageable);
+    Page<Host> findAllSort (int pageNumber, int pageSize, String sortBy, String sortDir);
     Optional<Host> findViaId(String id);
     void deleteViaId(String id);
     List<Host> sortByDate();

@@ -1,53 +1,45 @@
-package com.example.demo.models;
+package com.example.demo.Dto.request;
 
-import org.springframework.data.annotation.Id;
+import com.example.demo.models.User;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-@Document(collection = "hosts")
-public class Host {
-    @Id
-    private String id;
 
+public class AddHostRequest {
+
+    @NotBlank
     private String name;
+    @NotBlank
     private String city;
+    @NotBlank
     private String country;
+    @NotBlank
     private String address;
+    @NotBlank
     private String price;
 
-    @DBRef
-    private List<Review> reviews;
     //add photos
+    @NotBlank
     private LocalDate date; // updated can be put, or approved date
+    @NotBlank
     private String description;
     @DBRef
     private String user_id;
 
 
-    public Host(String name, String city, String country, String address, String price, String description, String user_id) {
+    public AddHostRequest(String name, String city, String country, String address, String price, String description, String user_id) {
         this.name = name;
         this.city = city;
         this.country = country;
         this.address = address;
         this.price = price;
-        this.reviews = new ArrayList<>();
         this.date = LocalDate.now();
         this.description = description;
         this.user_id = user_id;
     }
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
 
     public String getName() {
@@ -89,23 +81,6 @@ public class Host {
     public void setPrice(String price) {
         this.price = price;
     }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    public LocalDate getDate_created() {
-        return date;
-    }
-
-    public void setDate_created(LocalDate date) {
-        this.date = date;
-    }
-
 
     public String getDescription() {
         return description;
