@@ -6,6 +6,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import AuthService from "./services/auth.service";
 
+import AddHost from "./components/AddHost";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -53,7 +54,7 @@ const App = () => {
 
           {currentUser && (
             <Nav.Item className="nav-item">
-              <Link to={"/user"} className="nav-link">
+              <Link to={"/add"} className="nav-link">
                 User
               </Link>
             </Nav.Item>
@@ -96,6 +97,7 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
+          <Route path="/add" element={<AddHost />} />
           <Route path="/user" element={<BoardUser />} />
         </Routes>
       </Container>
