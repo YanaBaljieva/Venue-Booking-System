@@ -24,7 +24,7 @@ public class HostController{
 
     @PostMapping("/add_host")
     public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host){
-        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription(), host.getUser_id());
+        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription());
         hostRepoService.save(h);
         return ResponseEntity.ok().body(new MessageResponse("Host created!"));
     }
@@ -39,7 +39,7 @@ public class HostController{
     public ResponseEntity<Host> getPlaceById(@PathVariable String id) throws Exception {
 
         Host host = hostRepoService.findViaId(id)
-                .orElseThrow(() -> new Exception("User not exist with id :" + id));
+                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
         return ResponseEntity.ok(host);
     }
 
@@ -81,13 +81,13 @@ public class HostController{
         return hostRepoService.sortByCity(city);
     }
 
-    @GetMapping("/sort_date")
-    public List<Host> sortDate(){
-        return hostRepoService.sortByDate();
-    }
+//    @GetMapping("/sort_date")
+//    public List<Host> sortDate(){
+//        return hostRepoService.sortByDate();
+//    }
 
     @GetMapping("/sort")
-    public Page<Host> sotDate(int pageNumber, int pageSize, String sortBy, String sortDir){
+    public Page<Host> sortDate(int pageNumber, int pageSize, String sortBy, String sortDir){
         return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
     }
 

@@ -64,6 +64,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/search/**").permitAll()
                         .requestMatchers("/api/sort/**").permitAll()
                         .requestMatchers("/api/signup/**").permitAll()
+                        .requestMatchers("/api/hosts/{id}").permitAll()
                         .requestMatchers("/api/signout/**").permitAll()
                         .anyRequest().authenticated());
 

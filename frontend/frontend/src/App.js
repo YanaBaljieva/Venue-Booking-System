@@ -7,6 +7,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import AuthService from "./services/auth.service";
 
 import AddHost from "./components/AddHost";
+import ViewHost from "./components/ViewHost";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -16,7 +17,7 @@ import BoardUser from "./components/BoardUser";
 import EventBus from "./common/EventBus";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
@@ -36,7 +37,7 @@ const App = () => {
 
   const logOut = () => {
     AuthService.logout();
-    setCurrentUser(undefined);
+    setCurrentUser(null);
   };
 
   return (
@@ -55,7 +56,7 @@ const App = () => {
           {currentUser && (
             <Nav.Item className="nav-item">
               <Link to={"/add"} className="nav-link">
-                User
+                Add Host
               </Link>
             </Nav.Item>
           )}
@@ -98,6 +99,7 @@ const App = () => {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route path="/add" element={<AddHost />} />
+          <Route exact path="/view/*" element={<ViewHost />} />
           <Route path="/user" element={<BoardUser />} />
         </Routes>
       </Container>

@@ -30,10 +30,10 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Page<Host> findAllSort(int pageNumber, int pagesize, String sortBy, String sortDir) {
+    public Page<Host> findAllSort(int pageNumber, int pageSize, String sortBy, String sortDir) {
         return hostRepository.findAll(
                 PageRequest.of(
-                        pageNumber, pagesize,
+                        pageNumber, pageSize,
                         sortDir.equalsIgnoreCase("asc") ?
                                 Sort.by(sortBy).ascending() :
                                 Sort.by(sortBy).descending()

@@ -25,6 +25,19 @@ const login = (username, password) => {
     });
 };
 
+const addHost = (name, city, country, address, price, description) => {
+  return axios.post(API_URL + "add_host", {
+    name,
+    city,
+    country,
+    address,
+    price,
+    description,
+
+  });
+};
+
+
 const logout = () => {
   localStorage.removeItem("user");
   return axios.post(API_URL + "signout").then((response) => {
@@ -41,6 +54,7 @@ const AuthService = {
   register,
   login,
   logout,
+  addHost,
   getCurrentUser,
 }
 

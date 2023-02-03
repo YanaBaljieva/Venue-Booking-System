@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 //import UserService from "../services/user.service";
 import axios from 'axios';
 import { InputGroup, Form, Button, Container } from 'react-bootstrap';
-import {Card, FormControl} from 'react-bootstrap';
+import { Card, FormControl } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
@@ -17,6 +18,11 @@ const Home = () => {
 
     const handleSort = () => {
         setSortToggle(!sortToggle);
+//        if (search) {
+//            searchData(currentPage);
+//        } else {
+//            findAllHosts(currentPage);
+//        }
         findAllHosts(currentPage);
     };
 
@@ -74,9 +80,9 @@ const Home = () => {
     };
 
     const findAllHosts = useCallback((currentPage) => {
-        currentPage -= 1;
+       currentPage -= 1;
+       let sortDir = sortToggle ? "asc" : "desc";
       //  axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
-        let sortDir = sortToggle ? "asc" : "desc";
         axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy=name&sortDir="+sortDir)
         .then(response => response.data)
         .then(data => {
@@ -96,8 +102,9 @@ const Home = () => {
         findAllHosts(currentPage);
     };
 
-    const searchData = currentPage => {
+    const searchData = useCallback((currentPage) => {
         currentPage -= 1;
+        //axios.get("http://localhost:8080/api/all_places/search_sort/"+search+"?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy=name&sortDir="+sortDir)
         axios.get("http://localhost:8080/api/search/"+search+"?page="+currentPage+"&size="+hostsPerPage)
         .then(response => response.data)
         .then(data => {
@@ -106,11 +113,17 @@ const Home = () => {
             setTotalElements(data.totalElements);
             setCurrentPage(data.number + 1);
         });
-    };
+    }, [hostsPerPage, search]);
 
     useEffect(() => {
-        findAllHosts(currentPage);
-    }, [currentPage, findAllHosts]);
+        if(search){
+            searchData(currentPage);
+        } else {
+            findAllHosts(currentPage);
+
+        }
+
+    }, [currentPage, findAllHosts, searchData, search]);
 
     return (
         <Container>
@@ -155,14 +168,19 @@ const Home = () => {
 
 
                 hosts.map(item => (
-                    <Card className="jumbotron custom-jumbotron">
-                        <Card.Body>
-                            <div key={item.id}>
-                                <div>{item.name}</div>
-                                <div>{item.city}</div>
-                            </div>
-                        </Card.Body>
-                    </Card>
+                    <Container>
+                        <Link to={"/view/"+item.id}>
+                            <Card className="jumbotron custom-jumbotron">
+                                <Card.Body>
+                                        <div key={item.id}>
+                                            <div>{item.name}</div>
+                                            <div>{item.city}</div>
+                                        </div>
+                                </Card.Body>
+                            </Card>
+                        </Link>
+                    </Container>
+
               ))}
 
             { hosts.length === 0 ? null :

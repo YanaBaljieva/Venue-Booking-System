@@ -28,7 +28,7 @@ public class Host {
     private String user_id;
 
 
-    public Host(String name, String city, String country, String address, String price, String description, String user_id) {
+    public Host(String name, String city, String country, String address, String price, String description/*, String user_id*/) {
         this.name = name;
         this.city = city;
         this.country = country;
@@ -37,7 +37,7 @@ public class Host {
         this.reviews = new ArrayList<>();
         this.date = LocalDate.now();
         this.description = description;
-        this.user_id = user_id;
+        //   this.user_id = user_id;
     }
 
 
