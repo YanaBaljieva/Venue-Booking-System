@@ -1,5 +1,6 @@
 package com.example.demo.services.Impl;
 
+import com.example.demo.Dto.request.ReserveAt;
 import com.example.demo.models.Host;
 import com.example.demo.repository.HostRepository;
 import com.example.demo.services.HostService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,26 @@ public class HostServiceImpl implements HostService {
         return hostRepository.findAll(pageable);
     }
 
+    @Override
+    public void reserve(ReserveAt reserveAt) throws Exception {
+        Host h = hostRepository.findById(reserveAt.getHost_id())
+                .orElseThrow(() -> new Exception("Host not exist with id :" + reserveAt.getHost_id()));
+        List<LocalDate> dates = h.getBooked_at();
+        if(!h.getBooked_at().contains(reserveAt.getDate_at())){
+            dates.add(reserveAt.getDate_at());
+            h.setBooked_at(dates);
+            hostRepository.save(h);
+        } else {
+            throw new Exception("This date is booked!");
+        }
+    }
+
+    @Override
+    public List<LocalDate> findSchedule(String id) throws Exception {
+        Host h = hostRepository.findById(id)
+                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
+        return h.getBooked_at();
+    }
     @Override
     public Page<Host> findAllSort(int pageNumber, int pageSize, String sortBy, String sortDir) {
         return hostRepository.findAll(

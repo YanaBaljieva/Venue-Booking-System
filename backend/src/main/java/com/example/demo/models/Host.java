@@ -21,6 +21,7 @@ public class Host {
 
     @DBRef
     private List<Review> reviews;
+    private List<LocalDate> booked_at;
     //add photos
     private LocalDate date; // updated can be put, or approved date
     private String description;
@@ -28,7 +29,7 @@ public class Host {
     private String user_id;
 
 
-    public Host(String name, String city, String country, String address, String price, String description/*, String user_id*/) {
+    public Host(String name, String city, String country, String address, String price, String description, String user_id) {
         this.name = name;
         this.city = city;
         this.country = country;
@@ -37,7 +38,8 @@ public class Host {
         this.reviews = new ArrayList<>();
         this.date = LocalDate.now();
         this.description = description;
-        //   this.user_id = user_id;
+        this.user_id = user_id;
+        this.booked_at = new ArrayList<>();
     }
 
 
@@ -121,5 +123,13 @@ public class Host {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public List<LocalDate> getBooked_at() {
+        return booked_at;
+    }
+
+    public void setBooked_at(List<LocalDate> booked_at) {
+        this.booked_at = booked_at;
     }
 }

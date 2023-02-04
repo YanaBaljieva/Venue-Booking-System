@@ -29,7 +29,7 @@ public class AddHostRequest {
     private String user_id;
 
 
-    public AddHostRequest(String name, String city, String country, String address, String price, String description/*, String user_id*/) {
+    public AddHostRequest(String name, String city, String country, String address, String price, String description, String user_id) {
         this.name = name;
         this.city = city;
         this.country = country;
@@ -37,7 +37,7 @@ public class AddHostRequest {
         this.price = price;
         this.date = LocalDate.now();
         this.description = description;
-        //  this.user_id = user_id;
+        this.user_id = user_id;
     }
 
 

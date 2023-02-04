@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.Dto.request.AddHostRequest;
+import com.example.demo.Dto.request.ReserveAt;
 import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.models.Host;
 import com.example.demo.models.User;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.server.RemoteServer;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +27,7 @@ public class HostController{
 
     @PostMapping("/add_host")
     public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host){
-        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription());
+        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription(), host.getUser_id());
         hostRepoService.save(h);
         return ResponseEntity.ok().body(new MessageResponse("Host created!"));
     }
@@ -91,9 +94,19 @@ public class HostController{
         return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
     }
 
+    @PostMapping("/reserve")
+    public ResponseEntity<?> reservePlace(@RequestBody ReserveAt reserveAt) throws Exception {
+        hostRepoService.reserve(reserveAt);
 
-    //get schedule
-    //reserve the place
+        return ResponseEntity.ok(reserveAt);
+    }
+
+    @GetMapping("/schedule/{id}")
+    public List<LocalDate> getSchedule(@PathVariable(value = "id") String hostId) throws Exception {
+        return hostRepoService.findSchedule(hostId);
+    }
+
+
     //post review
     //get(display) reviews
 }

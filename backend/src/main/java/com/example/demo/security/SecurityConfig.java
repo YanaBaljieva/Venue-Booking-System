@@ -66,6 +66,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/signup/**").permitAll()
                         .requestMatchers("/api/hosts/{id}").permitAll()
                         .requestMatchers("/api/signout/**").permitAll()
+                        .requestMatchers("/api/reserve/**").permitAll()
+                        .requestMatchers("/api/schedule/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
