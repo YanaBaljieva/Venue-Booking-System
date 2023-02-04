@@ -4,7 +4,7 @@ import axios from 'axios';
 import { InputGroup, Form, Button, Container } from 'react-bootstrap';
 import { Card, FormControl } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-
+import '../App.css';
 
 const Home = () => {
 
@@ -14,17 +14,20 @@ const Home = () => {
     const [hostsPerPage] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
-    const [sortToggle, setSortToggle] = useState(true);
+    const [sortToggle, setSortToggle] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [sortBy, setSortBy] = useState("date");
 
-    const handleSort = () => {
-        setSortToggle(!sortToggle);
-//        if (search) {
-//            searchData(currentPage);
-//        } else {
-//            findAllHosts(currentPage);
-//        }
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
+    const handleSort = (handleSortBy, handleSortToggle) => {
+        setSortToggle(handleSortToggle);
+        setSortBy(handleSortBy);
         findAllHosts(currentPage);
     };
+
 
     const changePage = event => {
         let targetPage = parseInt(event.target.value);
@@ -79,11 +82,11 @@ const Home = () => {
         }
     };
 
-    const findAllHosts = useCallback((currentPage) => {
+    const findAllHosts = useCallback((currentPage)=> {
        currentPage -= 1;
        let sortDir = sortToggle ? "asc" : "desc";
       //  axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
-        axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy=name&sortDir="+sortDir)
+        axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
         .then(response => response.data)
         .then(data => {
             setHosts(data.content);
@@ -91,7 +94,7 @@ const Home = () => {
             setTotalElements(data.totalElements);
             setCurrentPage(data.number + 1);
         })
-    }, [hostsPerPage, sortToggle]);
+    }, [hostsPerPage, sortToggle, sortBy]);
 
     const searchChange = event => {
         setSearch(event.target.value);
@@ -148,12 +151,40 @@ const Home = () => {
                     className={"info-border bg-dark text-white"}
                     onClick={cancelSearch} >Remove
                 </Button>
-                <Button
-                    variant="outline-secondary"
-                    type="button"
-                    className={"info-border bg-dark text-white"}
-                    onClick={handleSort} > Sort by Name
-                </Button>
+                <div className="dropdown">
+                    <Button
+                        type="button"
+                        onClick={handleOpen}>Dropdown
+                    </Button>
+                        {open ? (
+                            <ul className="menu">
+                            <li className="menu-item">
+                                <Button
+                                    type="button"
+                                    onClick={() => handleSort('date', false)}>Last added
+                                </Button>
+                              </li>
+                              <li className="menu-item">
+                                <Button
+                                    type="button"
+                                    onClick={() => handleSort('date', true)}>First added
+                                </Button>
+                              </li>
+                              <li className="menu-item">
+                                <Button
+                                    type="button"
+                                    onClick={() => handleSort('price', true)}>Price ↑
+                                </Button>
+                              </li>
+                              <li className="menu-item">
+                                <Button
+                                    type="button"
+                                    onClick={() => handleSort('price', false)}>Price ↓
+                                </Button>
+                              </li>
+                              </ul>
+                        ) : null}
+                </div>
             </InputGroup>
 
 

@@ -69,9 +69,8 @@ const AddHost = (props) => {
     setSuccessful(false);
 
     form.current.validateAll();
-
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.addHost(name, city, country, address, price, description, currentUser).then(
+      AuthService.addHost(name, city, country, address, price, description, currentUser.id).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);

@@ -25,7 +25,7 @@ const login = (username, password) => {
     });
 };
 
-const addHost = (name, city, country, address, price, description) => {
+const addHost = (name, city, country, address, price, description, currentUser) => {
   return axios.post(API_URL + "add_host", {
     name,
     city,
@@ -33,7 +33,7 @@ const addHost = (name, city, country, address, price, description) => {
     address,
     price,
     description,
-
+    currentUser
   });
 };
 
