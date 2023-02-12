@@ -4,9 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.*;
+import java.util.*;
 
 @Document(collection = "hosts")
 public class Host {
@@ -19,27 +18,26 @@ public class Host {
     private String address;
     private String price;
 
-    @DBRef
     private List<Review> reviews;
     private List<LocalDate> booked_at;
     //add photos
-    private LocalDate date; // updated can be put, or approved date
+    private Date date; // updated can be put, or approved date
+
     private String description;
-    @DBRef
-    private String user_id;
+    private String username;
 
 
-    public Host(String name, String city, String country, String address, String price, String description, String user_id) {
+    public Host(String name, String city, String country, String address, String price, String description, String username) {
         this.name = name;
         this.city = city;
         this.country = country;
         this.address = address;
         this.price = price;
         this.reviews = new ArrayList<>();
-        this.date = LocalDate.now();
+        this.date = new Date();
         this.description = description;
-        this.user_id = user_id;
         this.booked_at = new ArrayList<>();
+        this.username = username;
     }
 
 
@@ -100,13 +98,14 @@ public class Host {
         this.reviews = reviews;
     }
 
-    public LocalDate getDate_created() {
+    public Date getDate_created() {
         return date;
     }
 
-    public void setDate_created(LocalDate date) {
+    public void setDate_created(Date date) {
         this.date = date;
     }
+
 
 
     public String getDescription() {
@@ -117,12 +116,12 @@ public class Host {
         this.description = description;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<LocalDate> getBooked_at() {

@@ -1,9 +1,15 @@
 package com.example.demo.services.Impl;
 
 import com.example.demo.Dto.request.ReserveAt;
+import com.example.demo.Dto.request.ReviewRequest;
 import com.example.demo.models.Host;
+import com.example.demo.models.Review;
 import com.example.demo.repository.HostRepository;
 import com.example.demo.services.HostService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +38,17 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
+    public void createRev(ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
+        Host h = hostRepository.findById(reviewRequest.getHost_id())
+                .orElseThrow(() -> new Exception("Host not exist with id :" + reviewRequest.getHost_id()));
+        List<Review> reviews = h.getReviews();
+        Review r = new Review(reviewRequest.getStars(), reviewRequest.getComment(), reviewRequest.getHost_id(), getUsernameByCookie(request));
+        reviews.add(r);
+        h.setReviews(reviews);
+        hostRepository.save(h);
+    }
+
+    @Override
     public void reserve(ReserveAt reserveAt) throws Exception {
         Host h = hostRepository.findById(reserveAt.getHost_id())
                 .orElseThrow(() -> new Exception("Host not exist with id :" + reserveAt.getHost_id()));
@@ -43,6 +60,13 @@ public class HostServiceImpl implements HostService {
         } else {
             throw new Exception("This date is booked!");
         }
+    }
+
+    @Override
+    public List<Review> getReviewsOnId(String id) throws Exception {
+        Host h = hostRepository.findById(id)
+                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
+        return h.getReviews();
     }
 
     @Override
@@ -83,16 +107,58 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Page<Host> findAllHosts(Pageable pageable, String keyword) {
-        return hostRepository.findAll(pageable, keyword);
+    public Page<Host> searchResult(String search, int pageNumber, int pageSize, String sortBy, String sortDir) {
+
+        return hostRepository.findAll(
+                PageRequest.of(
+                        pageNumber, pageSize,
+                        sortDir.equalsIgnoreCase("asc") ?
+                                Sort.by(sortBy).ascending() :
+                                Sort.by(sortBy).descending()
+                ), search);
     }
 
-    @Override
-    public List<Host> searchResult(String search) {
-       /* Pageable pageable = (Pageable) PageRequest.of(0, 5,
-                Sort.by("name").ascending());*/
+//    @Override
+//    public Page<Host> findAllHosts(Pageable pageable, String keyword) {
+//        return hostRepository.findAll(pageable, keyword);
+//    }
 
-        return hostRepository.findByNameContainingIgnoreCase(search);
+//    @Override
+//    public List<Host> searchResult(String search) {
+//       /* Pageable pageable = (Pageable) PageRequest.of(0, 5,
+//                Sort.by("name").ascending());*/
+//
+//        return hostRepository.findByNameContainingIgnoreCase(search);
+//    }
+
+
+
+    @Override
+    public String getUsernameByCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null || cookies.length == 0) {
+            return null;
+        }
+        String userId = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("projectCookie")) {
+                    String jwtToken = cookie.getValue();
+                    Claims claims = Jwts.parser()
+                            .setSigningKey("projectSecretKey")
+                            .parseClaimsJws(jwtToken)
+                            .getBody();
+                    userId = claims.getSubject();
+                    break;
+                }
+            }
+        }
+
+        return userId;
+//            else {
+//                return ResponseEntity.badRequest().build();
+//            }
+
     }
 
 }

@@ -10,6 +10,10 @@ import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.services.Impl.UserDetailsImpl;
 import com.example.demo.services.Impl.UserServiceImpl;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -67,4 +71,5 @@ public class UserAuthController {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
     }
+
 }

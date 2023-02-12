@@ -28,20 +28,16 @@ public class User {
     @Size(max = 120)
     private String password;
 
-  //  @NotBlank
-    private String phone;
-
-    @DBRef
+ //   @DBRef
     private Set<Role> roles = new HashSet<>();
     public User(){
 
     }
 
-    public User(String username, String email, String password, String phone) {
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.phone = phone;
     }
 
     public String getId() {
@@ -66,14 +62,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getUsername() {

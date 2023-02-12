@@ -2,17 +2,21 @@ package com.example.demo.controllers;
 
 import com.example.demo.Dto.request.AddHostRequest;
 import com.example.demo.Dto.request.ReserveAt;
+import com.example.demo.Dto.request.ReviewRequest;
 import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.models.Host;
-import com.example.demo.models.User;
+import com.example.demo.models.Review;
+
 import com.example.demo.services.Impl.HostServiceImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.rmi.server.RemoteServer;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +30,12 @@ public class HostController{
     private HostServiceImpl hostRepoService;
 
     @PostMapping("/add_host")
-    public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host){
-        Host h = new Host(host.getName(), host.getCity(), host.getCountry(), host.getAddress(), host.getPrice(), host.getDescription(), host.getUser_id());
+    public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host, HttpServletRequest request){
+
+        Host h = new Host(host.getName(), host.getCity(), host.getCountry(),
+                host.getAddress(), host.getPrice(), host.getDescription(),
+                hostRepoService.getUsernameByCookie(request));
+
         hostRepoService.save(h);
         return ResponseEntity.ok().body(new MessageResponse("Host created!"));
     }
@@ -46,25 +54,25 @@ public class HostController{
         return ResponseEntity.ok(host);
     }
 
-    @PutMapping("/host/{id}")
-    public Host update(@PathVariable String id, @RequestBody Host host) {
-        Optional<Host> optcontact = hostRepoService.findViaId(id);
-        Host h = optcontact.get();
-        if (host.getCity() != null)
-            h.setCity(host.getCity());
-        if (host.getCountry() != null) {
-            h.setCountry(host.getCountry());
-        }
-        if (host.getAddress() != null) {
-            h.setAddress(host.getAddress());
-        }
-        if (host.getPrice() != null) {
-            h.setPrice(host.getPrice());
-        }
-        // add photos
-        hostRepoService.save(h);
-        return h;
-    }
+//    @PutMapping("/host/{id}")
+//    public Host update(@PathVariable String id, @RequestBody Host host) {
+//        Optional<Host> optcontact = hostRepoService.findViaId(id);
+//        Host h = optcontact.get();
+//        if (host.getCity() != null)
+//            h.setCity(host.getCity());
+//        if (host.getCountry() != null) {
+//            h.setCountry(host.getCountry());
+//        }
+//        if (host.getAddress() != null) {
+//            h.setAddress(host.getAddress());
+//        }
+//        if (host.getPrice() != null) {
+//            h.setPrice(host.getPrice());
+//        }
+//        // add photos
+//        hostRepoService.save(h);
+//        return h;
+//    }
 
     @DeleteMapping("/delete_host/{id}")
     public ResponseEntity<String> deletePlace(@PathVariable String id) throws Exception {
@@ -73,31 +81,37 @@ public class HostController{
         return ResponseEntity.ok("Deleted successfully");
     }
 
-    @GetMapping("/search/{keyword}")
-    public Page<Host> searchPlace(Pageable pageable, @PathVariable("keyword") String keyword) {
-        return hostRepoService.findAllHosts(pageable, keyword);
-    }
-
-
-    @GetMapping("/sort_city/{city}")
-    public List<Host> sortCity(@PathVariable String city){
-        return hostRepoService.sortByCity(city);
-    }
-
-//    @GetMapping("/sort_date")
-//    public List<Host> sortDate(){
-//        return hostRepoService.sortByDate();
+//    @GetMapping("/search/{keyword}")
+//    public Page<Host> searchPlace(Pageable pageable, @PathVariable("keyword") String keyword) {
+//        return hostRepoService.findAllHosts(pageable, keyword);
+//    }
+//
+//
+//    @GetMapping("/sort_city/{city}")
+//    public List<Host> sortCity(@PathVariable String city){
+//        return hostRepoService.sortByCity(city);
+//    }
+//
+//
+//    @GetMapping("/sort")
+//    public Page<Host> sortDate(int pageNumber, int pageSize, String sortBy, String sortDir){
+//        return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
 //    }
 
-    @GetMapping("/sort")
-    public Page<Host> sortDate(int pageNumber, int pageSize, String sortBy, String sortDir){
-        return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
+
+    @GetMapping("/search/{keyword}")
+    public Page<Host> searchPlace(@PathVariable("keyword") @Value("") String keyword,
+                                  /*@Value("0") */int pageNumber,
+                                  /*@Value("5")*/ int pageSize,
+                                  @Value("date") String sortBy,
+                                  @Value("desc") String sortDir) {
+        return hostRepoService.searchResult(keyword, pageNumber, pageSize, sortBy, sortDir);
     }
+
 
     @PostMapping("/reserve")
     public ResponseEntity<?> reservePlace(@RequestBody ReserveAt reserveAt) throws Exception {
         hostRepoService.reserve(reserveAt);
-
         return ResponseEntity.ok(reserveAt);
     }
 
@@ -106,8 +120,17 @@ public class HostController{
         return hostRepoService.findSchedule(hostId);
     }
 
+    @PostMapping("/create_rev")
+    public ResponseEntity<?> createReview(@RequestBody ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
+        hostRepoService.createRev(reviewRequest, request);
+        return ResponseEntity.ok(reviewRequest);
+    }
 
-    //post review
-    //get(display) reviews
+    @GetMapping("/get_rev/{id}")
+    public List<Review> getAllReviews(@PathVariable(value = "id") String hostId) throws Exception {
+        return hostRepoService.getReviewsOnId(hostId);
+    }
+
+
 }
 

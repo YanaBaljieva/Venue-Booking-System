@@ -30,9 +30,6 @@ public class UserController {
         if(user.getPassword() != null){
             u.setPassword(user.getPassword());
         }
-        if(user.getPhone() != null){
-            u.setPhone(user.getPhone());
-        }
         userRepoService.save(u);
         return u;
     }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 
 public class AddHostRequest {
@@ -22,22 +24,16 @@ public class AddHostRequest {
 
     //add photos
     @NotBlank
-    private LocalDate date; // updated can be put, or approved date
-    @NotBlank
     private String description;
-    @DBRef
-    private String user_id;
 
 
-    public AddHostRequest(String name, String city, String country, String address, String price, String description, String user_id) {
+    public AddHostRequest(String name, String city, String country, String address, String price, String description) {
         this.name = name;
         this.city = city;
         this.country = country;
         this.address = address;
         this.price = price;
-        this.date = LocalDate.now();
         this.description = description;
-        this.user_id = user_id;
     }
 
 
@@ -90,11 +86,5 @@ public class AddHostRequest {
         this.description = description;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
 }

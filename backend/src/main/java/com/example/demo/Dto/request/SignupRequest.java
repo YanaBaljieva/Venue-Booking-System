@@ -18,9 +18,6 @@ public class SignupRequest {
             flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 
-   // @NotBlank
-    private String phone;
-
     private Set<String> roles;
 
     @NotBlank
@@ -49,14 +46,6 @@ public class SignupRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Set<String> getRoles() {
