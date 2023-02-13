@@ -25,7 +25,7 @@ const Home = () => {
     const handleSort = (handleSortBy, handleSortToggle) => {
         setSortToggle(handleSortToggle);
         setSortBy(handleSortBy);
-        findAllHosts(currentPage);
+        searchData(currentPage);
     };
 
 
@@ -84,9 +84,9 @@ const Home = () => {
 
     const findAllHosts = useCallback((currentPage)=> {
        currentPage -= 1;
-       let sortDir = sortToggle ? "asc" : "desc";
-      //  axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
-        axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
+      // let sortDir = sortToggle ? "asc" : "desc";
+        axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
+      //  axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
         .then(response => response.data)
         .then(data => {
             setHosts(data.content);
@@ -94,7 +94,7 @@ const Home = () => {
             setTotalElements(data.totalElements);
             setCurrentPage(data.number + 1);
         })
-    }, [hostsPerPage, sortToggle, sortBy]);
+    }, [hostsPerPage]);
 
     const searchChange = event => {
         setSearch(event.target.value);
@@ -107,23 +107,36 @@ const Home = () => {
 
     const searchData = useCallback((currentPage) => {
         currentPage -= 1;
+        let sortDir = sortToggle ? "asc" : "desc";
+        if(search) {
+            axios.get("http://localhost:8080/api/search/"+search+"?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
+                .then(response => response.data)
+                .then(data => {
+                    setHosts(data.content);
+                    setTotalPages(data.totalPages);
+                    setTotalElements(data.totalElements);
+                    setCurrentPage(data.number + 1);
+                });
+        } else {
+            axios.get("http://localhost:8080/api/search?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
+                .then(response => response.data)
+                .then(data => {
+                    setHosts(data.content);
+                    setTotalPages(data.totalPages);
+                    setTotalElements(data.totalElements);
+                    setCurrentPage(data.number + 1);
+                });
+        }
         //axios.get("http://localhost:8080/api/all_places/search_sort/"+search+"?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy=name&sortDir="+sortDir)
-        axios.get("http://localhost:8080/api/search/"+search+"?page="+currentPage+"&size="+hostsPerPage)
-        .then(response => response.data)
-        .then(data => {
-            setHosts(data.content);
-            setTotalPages(data.totalPages);
-            setTotalElements(data.totalElements);
-            setCurrentPage(data.number + 1);
-        });
-    }, [hostsPerPage, search]);
+       // axios.get("http://localhost:8080/api/search/"+search+"?page="+currentPage+"&size="+hostsPerPage)
+
+    }, [hostsPerPage, search, sortToggle, sortBy]);
 
     useEffect(() => {
         if(search){
             searchData(currentPage);
         } else {
             findAllHosts(currentPage);
-
         }
 
     }, [currentPage, findAllHosts, searchData, search]);

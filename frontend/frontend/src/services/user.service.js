@@ -13,6 +13,6 @@ const getUserBoard = () => {
 const UserService = {
   getPublicContent,
   getUserBoard,
-}
+};
 
 export default UserService;

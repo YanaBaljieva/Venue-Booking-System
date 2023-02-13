@@ -25,7 +25,7 @@ const login = (username, password) => {
     });
 };
 
-const addHost = (name, city, country, address, price, description, currentUser) => {
+const addHost = (name, city, country, address, price, description) => {
   return axios.post(API_URL + "add_host", {
     name,
     city,
@@ -33,10 +33,23 @@ const addHost = (name, city, country, address, price, description, currentUser) 
     address,
     price,
     description,
-    currentUser
   });
 };
 
+const reservePlace = (host_id, date_at) => {
+  return axios.post(API_URL + "reserve", {
+    host_id,
+    date_at,
+  });
+};
+
+const postReview = (host_id, stars, comment) => {
+    return axios.post(API_URL + "create_rev", {
+        host_id,
+        stars,
+        comment,
+    })
+};
 
 const logout = () => {
   localStorage.removeItem("user");
@@ -56,6 +69,8 @@ const AuthService = {
   logout,
   addHost,
   getCurrentUser,
+  reservePlace,
+  postReview,
 }
 
 export default AuthService;

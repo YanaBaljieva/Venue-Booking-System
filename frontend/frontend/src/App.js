@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import {  Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import AuthVerify from "./common/AuthVerify";
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
+//import PrivateRoute from "./common/PrivateRoute";
 import AuthService from "./services/auth.service";
 
 import AddHost from "./components/AddHost";
@@ -92,16 +94,18 @@ const App = () => {
         )}
       </Navbar>
       <Container className="container mt-3">
-        <Routes>
+        <AuthVerify />
+          <Routes>
           <Route exact path={"/"} element={<Home />} />
           <Route exact path={"/home"} element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<Profile />} />
-          <Route path="/add" element={<AddHost />} />
+          <Route exact path="/add" component={<AddHost />} />
           <Route exact path="/view/*" element={<ViewHost />} />
           <Route path="/user" element={<BoardUser />} />
         </Routes>
+
       </Container>
     </div>
   );

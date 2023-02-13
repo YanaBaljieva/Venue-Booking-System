@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 //import { Button } from 'react-bootstrap';
-
 import AuthService from "../services/auth.service";
+
 
 const required = (value) => {
   if (!value) {
@@ -17,10 +19,23 @@ const required = (value) => {
 };
 
 
-const AddHost = (props) => {
+const AddHost = () => {
+
+//const location = useLocation();
+//axios.interceptors.response.use(
+//  response => response,
+//  error => {
+//    if (error.response.status === 401) {
+//      location.pathname = "/login";
+//    }
+//    return Promise.reject(error);
+//  }
+//);
+
+
   const form = useRef();
   const checkBtn = useRef();
-  const currentUser = AuthService.getCurrentUser();
+ // const currentUser = AuthService.getCurrentUser();
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -70,7 +85,7 @@ const AddHost = (props) => {
 
     form.current.validateAll();
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.addHost(name, city, country, address, price, description, currentUser.id).then(
+      AuthService.addHost(name, city, country, address, price, description).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -165,7 +180,6 @@ const AddHost = (props) => {
                        validations={[required]}
                       />
                    </div>
-                <input type="hidden" name="currentUser" value={currentUser.id} />
               <div className="form-group">
                 <button className="btn btn-primary btn-block">Add host</button>
               </div>
