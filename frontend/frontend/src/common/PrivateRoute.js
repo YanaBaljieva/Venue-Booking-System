@@ -1,13 +1,11 @@
-//import React from "react";
-//import { Route } from "react-router-dom";
-//
-//const PrivateRoute = ({ component: Component, ...rest }) => (
-//  <Route
-//    {...rest}
-//    render={props => {
-//      return <Component {...props} />;
-//    }}
-//  />
-//);
-//
-//export default PrivateRoute;
+import { Outlet, Navigate } from 'react-router-dom'
+import AuthService from "../services/auth.service";
+const PrivateRoute = () => {
+    const currentUser = AuthService.getCurrentUser();
+
+    return(
+        currentUser ? <Outlet/> : <Navigate to="/login"/>
+    )
+}
+
+export default PrivateRoute;

@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState, useCallback} from "react";
+import axios from "axios";
 import AuthService from "../services/auth.service";
-
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
 

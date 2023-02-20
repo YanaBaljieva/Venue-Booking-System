@@ -21,21 +21,8 @@ const required = (value) => {
 
 const AddHost = () => {
 
-//const location = useLocation();
-//axios.interceptors.response.use(
-//  response => response,
-//  error => {
-//    if (error.response.status === 401) {
-//      location.pathname = "/login";
-//    }
-//    return Promise.reject(error);
-//  }
-//);
-
-
   const form = useRef();
   const checkBtn = useRef();
- // const currentUser = AuthService.getCurrentUser();
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");

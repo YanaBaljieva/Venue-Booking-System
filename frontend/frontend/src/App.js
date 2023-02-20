@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {  Router, Routes, Route, Link } from "react-router-dom";
+import {  Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-//import AuthVerify from "./common/AuthVerify";
+import AuthVerify from "./common/AuthVerify";
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
-//import PrivateRoute from "./common/PrivateRoute";
+import PrivateRoute from "./common/PrivateRoute";
+import PrivateRouteLogin from "./common/PrivateRouteLogin";
 import AuthService from "./services/auth.service";
 
 import AddHost from "./components/AddHost";
@@ -95,17 +96,21 @@ const App = () => {
       </Navbar>
       <Container className="container mt-3">
 
-          <Routes>
-          <Route exact path={"/"} element={<Home />} />
-          <Route exact path={"/home"} element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/add" element={<AddHost />} />
-          <Route exact path="/view/*" element={<ViewHost />} />
+        <Routes>
+          <Route path={"/"} element={<Home />} />
+          <Route path={"/home"} element={<Home />} />
+          <Route element={<PrivateRouteLogin />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+          </Route>
+          <Route element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/add" element={<AddHost />} />
+          </Route>
+          <Route path="/view/*" element={<ViewHost />} />
           <Route path="/user" element={<BoardUser />} />
+          <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Routes>
-
       </Container>
     </div>
   );

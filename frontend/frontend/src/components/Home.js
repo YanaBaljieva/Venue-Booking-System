@@ -127,19 +127,16 @@ const Home = () => {
                     setCurrentPage(data.number + 1);
                 });
         }
-        //axios.get("http://localhost:8080/api/all_places/search_sort/"+search+"?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy=name&sortDir="+sortDir)
-       // axios.get("http://localhost:8080/api/search/"+search+"?page="+currentPage+"&size="+hostsPerPage)
-
     }, [hostsPerPage, search, sortToggle, sortBy]);
 
     useEffect(() => {
-        if(search){
+        if(search || sortToggle || sortBy){
             searchData(currentPage);
         } else {
             findAllHosts(currentPage);
         }
 
-    }, [currentPage, findAllHosts, searchData, search]);
+    }, [currentPage, findAllHosts, searchData, search, sortToggle, sortBy]);
 
     return (
         <Container>
