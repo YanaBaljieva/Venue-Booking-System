@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface HostRepository extends MongoRepository<Host, String> {
-    List<Host> findByNameContainingIgnoreCase(String name);
     List<Host> findByCity(String name);
     List<Host> findAllByOrderByDateAsc();
 

@@ -96,19 +96,18 @@ public class HostServiceImpl implements HostService {
         hostRepository.deleteById(id);
     }
 
-    @Override
-    public List<Host> sortByDate() {
-        return hostRepository.findAllByOrderByDateAsc();
-    }
-
-    @Override
-    public List<Host> sortByCity(String city) {
-        return hostRepository.findByCity(city);
-    }
 
     @Override
     public Page<Host> searchResult(String search, int pageNumber, int pageSize, String sortBy, String sortDir) {
-
+        if(search.isEmpty()){
+            return hostRepository.findAll(
+                    PageRequest.of(
+                            pageNumber, pageSize,
+                            sortDir.equalsIgnoreCase("asc") ?
+                                    Sort.by(sortBy).ascending() :
+                                    Sort.by(sortBy).descending()
+                    ));
+        }
         return hostRepository.findAll(
                 PageRequest.of(
                         pageNumber, pageSize,
@@ -117,20 +116,6 @@ public class HostServiceImpl implements HostService {
                                 Sort.by(sortBy).descending()
                 ), search);
     }
-
-//    @Override
-//    public Page<Host> findAllHosts(Pageable pageable, String keyword) {
-//        return hostRepository.findAll(pageable, keyword);
-//    }
-
-//    @Override
-//    public List<Host> searchResult(String search) {
-//       /* Pageable pageable = (Pageable) PageRequest.of(0, 5,
-//                Sort.by("name").ascending());*/
-//
-//        return hostRepository.findByNameContainingIgnoreCase(search);
-//    }
-
 
 
     @Override
@@ -153,7 +138,6 @@ public class HostServiceImpl implements HostService {
                 }
             }
         }
-
         return userId;
 //            else {
 //                return ResponseEntity.badRequest().build();

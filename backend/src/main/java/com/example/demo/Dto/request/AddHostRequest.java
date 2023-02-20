@@ -1,12 +1,5 @@
 package com.example.demo.Dto.request;
-
-import com.example.demo.models.User;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 
 
 public class AddHostRequest {

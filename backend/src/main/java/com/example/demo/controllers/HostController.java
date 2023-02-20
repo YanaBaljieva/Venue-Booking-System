@@ -9,6 +9,7 @@ import com.example.demo.models.Review;
 
 import com.example.demo.services.Impl.HostServiceImpl;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,10 @@ public class HostController{
 
     @PostMapping("/add_host")
     public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host, HttpServletRequest request){
-
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null || cookies.length == 0) {
+            return ResponseEntity.badRequest().body(new MessageResponse("not allowed!"));
+        }
         Host h = new Host(host.getName(), host.getCity(), host.getCountry(),
                 host.getAddress(), host.getPrice(), host.getDescription(),
                 hostRepoService.getUsernameByCookie(request));
@@ -54,26 +58,6 @@ public class HostController{
         return ResponseEntity.ok(host);
     }
 
-//    @PutMapping("/host/{id}")
-//    public Host update(@PathVariable String id, @RequestBody Host host) {
-//        Optional<Host> optcontact = hostRepoService.findViaId(id);
-//        Host h = optcontact.get();
-//        if (host.getCity() != null)
-//            h.setCity(host.getCity());
-//        if (host.getCountry() != null) {
-//            h.setCountry(host.getCountry());
-//        }
-//        if (host.getAddress() != null) {
-//            h.setAddress(host.getAddress());
-//        }
-//        if (host.getPrice() != null) {
-//            h.setPrice(host.getPrice());
-//        }
-//        // add photos
-//        hostRepoService.save(h);
-//        return h;
-//    }
-
     @DeleteMapping("/delete_host/{id}")
     public ResponseEntity<String> deletePlace(@PathVariable String id) throws Exception {
 
@@ -81,30 +65,15 @@ public class HostController{
         return ResponseEntity.ok("Deleted successfully");
     }
 
-//    @GetMapping("/search/{keyword}")
-//    public Page<Host> searchPlace(Pageable pageable, @PathVariable("keyword") String keyword) {
-//        return hostRepoService.findAllHosts(pageable, keyword);
-//    }
-//
-//
-//    @GetMapping("/sort_city/{city}")
-//    public List<Host> sortCity(@PathVariable String city){
-//        return hostRepoService.sortByCity(city);
-//    }
-//
-//
-//    @GetMapping("/sort")
-//    public Page<Host> sortDate(int pageNumber, int pageSize, String sortBy, String sortDir){
-//        return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
-//    }
-
-
-    @GetMapping("/search/{keyword}")
-    public Page<Host> searchPlace(@PathVariable("keyword") @Value("") String keyword,
-                                  /*@Value("0") */int pageNumber,
-                                  /*@Value("5")*/ int pageSize,
-                                  @Value("date") String sortBy,
-                                  @Value("desc") String sortDir) {
+    @RequestMapping(value = {"/search", "/search/{keyword}"}, method={RequestMethod.GET})
+    public Page<Host> searchPlace(@PathVariable(value = "keyword", required = false) String keyword,
+                                  @RequestParam(required = false, defaultValue = "0") int pageNumber,
+                                  @RequestParam(required = false, defaultValue = "5") int pageSize,
+                                  @RequestParam(required = false, defaultValue = "date") String sortBy,
+                                  @RequestParam(required = false, defaultValue = "desc") String sortDir) {
+        if(keyword == null){
+            return hostRepoService.findAllSort(pageNumber, pageSize, sortBy, sortDir);
+        }
         return hostRepoService.searchResult(keyword, pageNumber, pageSize, sortBy, sortDir);
     }
 
@@ -130,7 +99,6 @@ public class HostController{
     public List<Review> getAllReviews(@PathVariable(value = "id") String hostId) throws Exception {
         return hostRepoService.getReviewsOnId(hostId);
     }
-
 
 }
 

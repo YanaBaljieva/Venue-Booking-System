@@ -23,13 +23,8 @@ public interface HostService {
     Page<Host> findAllSort (int pageNumber, int pageSize, String sortBy, String sortDir);
     Optional<Host> findViaId(String id);
     void deleteViaId(String id);
-    List<Host> sortByDate();
-    List<Host> sortByCity(String name);
+
     //List<Host> sortByRating();
-    //List<Host> searchResult(String search);
-
     Page<Host> searchResult(String search, int pageNumber, int pageSize, String sortBy, String sortDir);
-   // Page<Host> findAllHosts(Pageable pageable, String keyword);
-
     String getUsernameByCookie(HttpServletRequest request);
 }
