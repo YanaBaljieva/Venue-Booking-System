@@ -18,8 +18,6 @@ const ViewHost = () => {
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
 
-
-   // const [error, setError] = useState('');
     let urlElements = window.location.href
                         .substring(window.location.href
                         .lastIndexOf('/')+1);
@@ -37,7 +35,6 @@ const ViewHost = () => {
                 console.log(response.data);
                 setMessage(response.data.message);
                 setSuccessful(true);
-                console.log("success");
              },
              (error) => {
                 const resMessage =
@@ -49,14 +46,12 @@ const ViewHost = () => {
                 setMessage(resMessage);
                 setSuccessful(false);
              }                                                            );
-          setShowSuccess(true);
-          setError(false);
+
         } catch (error) {
           console.error(error);
           setError(true);
-          setShowSuccess(false);        }
+        }
       };
-
     const handleStarClick = (newRating) => {
             setRating(newRating);
           };
@@ -74,8 +69,8 @@ const ViewHost = () => {
             (response) => {
                       console.log(response.data);
                       setMessage(response.data.message);
+                      console.log(message);
                       setSuccessful(true);
-                      console.log("success");
                     },
                     (error) => {
                       const resMessage =
@@ -207,16 +202,20 @@ const ViewHost = () => {
                       Submit
                     </Button>
                   </Form>
-                  {showSuccess && (
-                    <Alert variant="success" className="mt-3">
-                      Review saved successfully!
-                    </Alert>
-                  )}
-                  {error && (
-                    <Alert variant="danger" className="mt-3">
-                      An error occurred while saving the review. Please try again.
-                    </Alert>
-                  )}
+                  { message && (
+                    <div className="form-group">
+                        <div
+                            className={
+                            successful ? "alert alert-success" : "alert alert-danger"
+                             }
+                            role="alert"
+                            >
+                            {message}
+                        </div>
+                    </div>
+                  )
+                }
+
                 </Col>
               </Row>
             </Container>
@@ -224,8 +223,8 @@ const ViewHost = () => {
                   <Row className="justify-content-md-center">
                     <Col md="6">
                       <ListGroup variant="flush">
-                        {reviews.map((review) => (
-                          <ListGroup.Item key={review.id} className="d-flex">
+                        {reviews.map((review, index) => (
+                          <ListGroup.Item key={index} className="d-flex">
                             {[...Array(5)].map((star, i) => {
                               const ratingValue = i + 1;
                               return (
@@ -247,8 +246,7 @@ const ViewHost = () => {
 
     );
 
-}
-
+};
 export default ViewHost;
 
 

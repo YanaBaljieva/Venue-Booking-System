@@ -100,13 +100,7 @@ public class HostServiceImpl implements HostService {
     @Override
     public Page<Host> searchResult(String search, int pageNumber, int pageSize, String sortBy, String sortDir) {
         if(search.isEmpty()){
-            return hostRepository.findAll(
-                    PageRequest.of(
-                            pageNumber, pageSize,
-                            sortDir.equalsIgnoreCase("asc") ?
-                                    Sort.by(sortBy).ascending() :
-                                    Sort.by(sortBy).descending()
-                    ));
+            return findAllSort(pageNumber, pageSize, sortBy, sortDir);
         }
         return hostRepository.findAll(
                 PageRequest.of(
@@ -139,10 +133,6 @@ public class HostServiceImpl implements HostService {
             }
         }
         return userId;
-//            else {
-//                return ResponseEntity.badRequest().build();
-//            }
-
     }
 
 }

@@ -59,13 +59,13 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/signin/**").permitAll()
-                        .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers("/api/signup/**").permitAll()
+                        .requestMatchers("/api/signout/**").permitAll()
+                       // .requestMatchers("/api/test/**").permitAll()
                         .requestMatchers("/api/all_places/**").permitAll()
                         .requestMatchers("/api/search/**").permitAll()
                         .requestMatchers("/api/sort/**").permitAll()
-                        .requestMatchers("/api/signup/**").permitAll()
                         .requestMatchers("/api/hosts/{id}").permitAll()
-                        .requestMatchers("/api/signout/**").permitAll()
                         .requestMatchers("/api/schedule/**").permitAll()
                         .requestMatchers("/api/get_rev/**").permitAll()
                         .anyRequest().authenticated());

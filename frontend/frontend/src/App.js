@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  Routes, Route, Link } from "react-router-dom";
+import {  Routes, Route, Link, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AuthVerify from "./common/AuthVerify";
@@ -109,7 +109,7 @@ const App = () => {
           </Route>
           <Route path="/view/*" element={<ViewHost />} />
           <Route path="/user" element={<BoardUser />} />
-          <Route path="*" element={<p>There's nothing here: 404!</p>} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Container>
     </div>

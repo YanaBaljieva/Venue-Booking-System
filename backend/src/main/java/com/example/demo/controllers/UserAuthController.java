@@ -71,32 +71,4 @@ public class UserAuthController {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
     }
-    @GetMapping("/get_cookie")
-    public ResponseEntity<?> getCookie(HttpServletRequest request){
-
-        Cookie[] cookies = request.getCookies();
-        System.out.println(cookies.length);
-            if (cookies == null || cookies.length == 0) {
-                return ResponseEntity.badRequest().body(new MessageResponse("not found"));
-            }
-            return ResponseEntity.ok().body(new MessageResponse("yeeeees"));
-//            String userId = null;
-//            if (cookies != null) {
-//                System.out.println("alooooooo");
-//                for (Cookie cookie : cookies) {
-//                    if (cookie.getName().equals("projectCookie")) {
-//                        String jwtToken = cookie.getValue();
-//                        Claims claims = Jwts.parser()
-//                                .setSigningKey("projectSecretKey")
-//                                .parseClaimsJws(jwtToken)
-//                                .getBody();
-//                        userId = claims.getSubject();
-//                        break;
-//                    }
-//                }
-//            }
-//            return userId;
-        //return null;
-       }
-
 }

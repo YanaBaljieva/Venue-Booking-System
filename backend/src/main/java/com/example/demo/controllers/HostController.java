@@ -12,15 +12,14 @@ import com.example.demo.services.Impl.HostServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -92,7 +91,7 @@ public class HostController{
     @PostMapping("/create_rev")
     public ResponseEntity<?> createReview(@RequestBody ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
         hostRepoService.createRev(reviewRequest, request);
-        return ResponseEntity.ok(reviewRequest);
+        return ResponseEntity.ok().body(new MessageResponse("Review created"));
     }
 
     @GetMapping("/get_rev/{id}")
