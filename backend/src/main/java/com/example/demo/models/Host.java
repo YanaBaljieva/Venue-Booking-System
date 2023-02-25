@@ -19,7 +19,7 @@ public class Host {
     private String price;
 
     private List<Review> reviews;
-    private List<LocalDate> booked_at;
+    private List<BookAt> booked_at;
     //add photos
     private Date date; // updated can be put, or approved date
 
@@ -124,11 +124,11 @@ public class Host {
         this.username = username;
     }
 
-    public List<LocalDate> getBooked_at() {
+    public List<BookAt> getBooked_at() {
         return booked_at;
     }
 
-    public void setBooked_at(List<LocalDate> booked_at) {
+    public void setBooked_at(List<BookAt> booked_at) {
         this.booked_at = booked_at;
     }
 }

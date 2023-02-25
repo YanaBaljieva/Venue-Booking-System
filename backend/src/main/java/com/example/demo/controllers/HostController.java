@@ -4,6 +4,7 @@ import com.example.demo.Dto.request.AddHostRequest;
 import com.example.demo.Dto.request.ReserveAt;
 import com.example.demo.Dto.request.ReviewRequest;
 import com.example.demo.Dto.response.MessageResponse;
+import com.example.demo.models.BookAt;
 import com.example.demo.models.Host;
 import com.example.demo.models.Review;
 
@@ -17,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -78,20 +77,19 @@ public class HostController{
 
 
     @PostMapping("/reserve")
-    public ResponseEntity<?> reservePlace(@RequestBody ReserveAt reserveAt) throws Exception {
-        hostRepoService.reserve(reserveAt);
-        return ResponseEntity.ok(reserveAt);
+    public ResponseEntity<?> reservePlace(@RequestBody ReserveAt reserveAt, HttpServletRequest request) throws Exception {
+        hostRepoService.reserve(reserveAt, request);
+        return ResponseEntity.ok().body(new MessageResponse("Reservation created!"));
     }
 
     @GetMapping("/schedule/{id}")
-    public List<LocalDate> getSchedule(@PathVariable(value = "id") String hostId) throws Exception {
+    public List<BookAt> getSchedule(@PathVariable(value = "id") String hostId) throws Exception {
         return hostRepoService.findSchedule(hostId);
     }
 
     @PostMapping("/create_rev")
     public ResponseEntity<?> createReview(@RequestBody ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
-        hostRepoService.createRev(reviewRequest, request);
-        return ResponseEntity.ok().body(new MessageResponse("Review created"));
+        return hostRepoService.createRev(reviewRequest, request);
     }
 
     @GetMapping("/get_rev/{id}")

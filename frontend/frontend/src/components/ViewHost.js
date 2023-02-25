@@ -12,12 +12,14 @@ import AuthService from "../services/auth.service";
 const ViewHost = () => {
 
     const [startDate, setStartDate] = useState(null);
+    const[isSelectedDate, setIsSelectedDate] = useState(false);
     const[host, setHost] = useState({});
     const [showSuccess, setShowSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [successful, setSuccessful] = useState(false);
+    const [reserveSuccessful, setReserveSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-
+    const [reserveMessage, setReserveMessage] = useState("");
     let urlElements = window.location.href
                         .substring(window.location.href
                         .lastIndexOf('/')+1);
@@ -56,21 +58,23 @@ const ViewHost = () => {
             setRating(newRating);
           };
 
-   const reserve = () => {
+   const reserve = async () => {
 
        if (!startDate) {
-                 console.log("error");
+                 setReserveMessage("please, select a date");
+                 setIsSelectedDate(false);
+                 setReserveSuccessful(false);
                  return;
                }
+        setIsSelectedDate(true);
         const req = new Date(startDate);
         req.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
 
-       AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10)).then(
+       await AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10)).then(
             (response) => {
                       console.log(response.data);
-                      setMessage(response.data.message);
-                      console.log(message);
-                      setSuccessful(true);
+                      setReserveMessage(response.data.message);
+                      setReserveSuccessful(true);
                     },
                     (error) => {
                       const resMessage =
@@ -80,8 +84,8 @@ const ViewHost = () => {
                         error.message ||
                         error.toString();
 
-                      setMessage(resMessage);
-                      setSuccessful(false);
+                      setReserveMessage(resMessage);
+                      setReserveSuccessful(false);
                     }
 
        );
@@ -157,7 +161,19 @@ const ViewHost = () => {
                 excludeDates={dates}
                 placeholderText="Select a date other than today or yesterday"/>
                 <Button onClick={reserve}>Reserve</Button>
-
+                { reserveMessage && (
+                    <div className="form-group">
+                        <div
+                            className={
+                            reserveSuccessful ? "alert alert-success" : "alert alert-danger"
+                             }
+                            role="alert"
+                            >
+                            {reserveMessage}
+                        </div>
+                    </div>
+                  )
+                }
          <Container>
               <Row className="justify-content-md-center">
                 <Col md="6">

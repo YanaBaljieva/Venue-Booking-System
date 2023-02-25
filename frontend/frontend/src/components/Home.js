@@ -208,12 +208,12 @@ const Home = () => {
                 </Card> :
 
 
-                hosts.map(item => (
+                hosts.map((item, index) => (
                     <Container>
                         <Link to={"/view/"+item.id}>
                             <Card className="jumbotron custom-jumbotron">
                                 <Card.Body>
-                                        <div key={item.id}>
+                                        <div key={index}>
                                             <div>{item.name}</div>
                                             <div>{item.city}</div>
                                         </div>

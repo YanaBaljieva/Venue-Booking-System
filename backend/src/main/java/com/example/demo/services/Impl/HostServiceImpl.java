@@ -2,6 +2,8 @@ package com.example.demo.services.Impl;
 
 import com.example.demo.Dto.request.ReserveAt;
 import com.example.demo.Dto.request.ReviewRequest;
+import com.example.demo.Dto.response.MessageResponse;
+import com.example.demo.models.BookAt;
 import com.example.demo.models.Host;
 import com.example.demo.models.Review;
 import com.example.demo.repository.HostRepository;
@@ -15,9 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +40,10 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public void createRev(ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> createRev(ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
+        if(reviewRequest.getStars() == 0){
+           return ResponseEntity.badRequest().body(new MessageResponse("you must put rating"));
+        }
         Host h = hostRepository.findById(reviewRequest.getHost_id())
                 .orElseThrow(() -> new Exception("Host not exist with id :" + reviewRequest.getHost_id()));
         List<Review> reviews = h.getReviews();
@@ -46,15 +51,18 @@ public class HostServiceImpl implements HostService {
         reviews.add(r);
         h.setReviews(reviews);
         hostRepository.save(h);
+        return ResponseEntity.ok(new MessageResponse("Review created"));
     }
 
     @Override
-    public void reserve(ReserveAt reserveAt) throws Exception {
+    public void reserve(ReserveAt reserveAt, HttpServletRequest request) throws Exception {
         Host h = hostRepository.findById(reserveAt.getHost_id())
                 .orElseThrow(() -> new Exception("Host not exist with id :" + reserveAt.getHost_id()));
-        List<LocalDate> dates = h.getBooked_at();
+        List<BookAt> dates = h.getBooked_at();
+
         if(!h.getBooked_at().contains(reserveAt.getDate_at())){
-            dates.add(reserveAt.getDate_at());
+            BookAt b = new BookAt(getUsernameByCookie(request), reserveAt.getDate_at());
+            dates.add(b);
             h.setBooked_at(dates);
             hostRepository.save(h);
         } else {
@@ -70,7 +78,7 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public List<LocalDate> findSchedule(String id) throws Exception {
+    public List<BookAt> findSchedule(String id) throws Exception {
         Host h = hostRepository.findById(id)
                 .orElseThrow(() -> new Exception("Host not exist with id :" + id));
         return h.getBooked_at();
