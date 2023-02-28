@@ -10,6 +10,7 @@ import com.example.demo.models.Review;
 
 import com.example.demo.services.Impl.HostServiceImpl;
 
+import com.example.demo.services.Impl.UserServiceImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -27,6 +29,9 @@ public class HostController{
 
     @Autowired
     private HostServiceImpl hostRepoService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @PostMapping("/add_host")
     public ResponseEntity<?> saveHost(@RequestBody AddHostRequest host, HttpServletRequest request){
@@ -49,10 +54,12 @@ public class HostController{
 
 
     @GetMapping("/hosts/{id}")
-    public ResponseEntity<Host> getPlaceById(@PathVariable String id) throws Exception {
+    public Object getPlaceById(@PathVariable String id) throws Exception {
 
-        Host host = hostRepoService.findViaId(id)
-                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
+        Optional<Host> host = hostRepoService.findViaId(id);
+        if(host.isEmpty()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Host not found with this id!"));
+        }
         return ResponseEntity.ok(host);
     }
 
@@ -95,6 +102,16 @@ public class HostController{
     @GetMapping("/get_rev/{id}")
     public List<Review> getAllReviews(@PathVariable(value = "id") String hostId) throws Exception {
         return hostRepoService.getReviewsOnId(hostId);
+    }
+
+    //hostname, booked at date, username, user email,
+    @GetMapping("/profile_host/{username}")
+    public List<Host> getHostByUsername(@PathVariable(value = "username") String username){
+        return hostRepoService.getHostsByUser(username);
+    }
+    @GetMapping("/get_emails/{username}")
+    public List<String> getEmails(@PathVariable(value = "username") String username){
+        return hostRepoService.getAllEmails(username);
     }
 
 }

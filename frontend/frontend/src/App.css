@@ -2,6 +2,36 @@ label {
   display: block;
   margin-top: 10px;
 }
+body {
+    background-color:#20343B;
+}
+.navbar {
+    background-color: #E66F3D;
+    height: 80px;
+}
+.nav-button {
+    margin-left: 10px;
+    background-color: #CFD3D1 !important;
+    border: 8px;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.nav-link {
+    font-weight: 600;
+    color: #404031 !important;
+}
+
+.searchbar {
+    border-radius: 8px !important;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-color: #CFD3D1 !important;
+}
 
 .card-container.card {
   max-width: 350px !important;

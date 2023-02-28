@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AuthVerify from "./common/AuthVerify";
 import { Navbar, Nav, Container } from 'react-bootstrap';
-
+import Button from 'react-bootstrap/Button';
 import PrivateRoute from "./common/PrivateRoute";
 import PrivateRouteLogin from "./common/PrivateRouteLogin";
 import AuthService from "./services/auth.service";
@@ -45,22 +45,26 @@ const App = () => {
 
   return (
     <div>
-      <Navbar className="navbar navbar-expand navbar-dark bg-dark">
+      <Navbar className="navbar navbar-expand ">
         <Link to={"/"} className="navbar-brand">
           Test
         </Link>
         <Navbar className="navbar-nav mr-auto">
           <Nav.Item className="nav-item">
-            <Link to={"/home"} className="nav-link">
-              Home
-            </Link>
+            <Button className="nav-button" variant="secondary">
+              <Link to={"/home"} className="nav-link">
+                Home
+              </Link>
+            </Button>
           </Nav.Item>
 
           {currentUser && (
             <Nav.Item className="nav-item">
-              <Link to={"/add"} className="nav-link">
-                Add Host
-              </Link>
+              <Button className="nav-button" variant="secondary">
+                <Link to={"/add"} className="nav-link">
+                  Add Host
+                </Link>
+              </Button>
             </Nav.Item>
           )}
         </Navbar>
@@ -68,28 +72,36 @@ const App = () => {
         {currentUser ? (
           <Navbar className="navbar-nav ml-auto">
             <Nav.Item className="nav-item">
-              <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
-              </Link>
+              <Button className="nav-button" variant="secondary">
+                  <Link to={"/profile"} className="nav-link">
+                    {currentUser.username}
+                  </Link>
+              </Button>
             </Nav.Item>
             <Nav.Item className="nav-item">
-              <a href="/login" className="nav-link" onClick={logOut}>
-                LogOut
-              </a>
+              <Button className="nav-button" variant="secondary">
+                <a href="/login" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </Button>
             </Nav.Item>
           </Navbar>
         ) : (
           <Navbar className="navbar-nav ml-auto">
             <Nav.Item className="nav-item">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
+              <Button className="nav-button" variant="secondary">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </Button>
             </Nav.Item>
 
             <Nav.Item className="nav-item">
-              <Link to={"/register"} className="nav-link">
-                Sign Up
-              </Link>
+              <Button className="nav-button" variant="secondary">
+                <Link to={"/register"} className="nav-link">
+                  Sign Up
+                </Link>
+              </Button>
             </Nav.Item>
           </Navbar>
         )}

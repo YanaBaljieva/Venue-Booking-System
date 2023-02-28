@@ -12,4 +12,6 @@ import java.util.List;
 public interface HostRepository extends MongoRepository<Host, String> {
     @Query("{ $or: [ { 'name': {$regex: ?0, $options: 'i'} }, { 'city': {$regex: ?0, $options: 'i'} }, { 'country': {$regex: ?0, $options: 'i'}}] }")
     Page<Host> findAll(Pageable pageable, String keyword);
+
+    List<Host> findAllByUsername(String username);
 }

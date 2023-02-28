@@ -6,7 +6,9 @@ import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.models.BookAt;
 import com.example.demo.models.Host;
 import com.example.demo.models.Review;
+import com.example.demo.models.User;
 import com.example.demo.repository.HostRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.services.HostService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,9 @@ public class HostServiceImpl implements HostService {
 
     @Autowired
     private HostRepository hostRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void save(Host host) {
@@ -59,29 +65,36 @@ public class HostServiceImpl implements HostService {
         Host h = hostRepository.findById(reserveAt.getHost_id())
                 .orElseThrow(() -> new Exception("Host not exist with id :" + reserveAt.getHost_id()));
         List<BookAt> dates = h.getBooked_at();
+        for (BookAt b: dates) {
+            if(b.getDate().equals(reserveAt.getDate_at())){
+                throw new Exception("This date is booked!");
+            }
 
-        if(!h.getBooked_at().contains(reserveAt.getDate_at())){
-            BookAt b = new BookAt(getUsernameByCookie(request), reserveAt.getDate_at());
-            dates.add(b);
-            h.setBooked_at(dates);
-            hostRepository.save(h);
-        } else {
-            throw new Exception("This date is booked!");
         }
+        BookAt bookAt = new BookAt(getUsernameByCookie(request), reserveAt.getDate_at());
+        dates.add(bookAt);
+        h.setBooked_at(dates);
+        hostRepository.save(h);
     }
 
     @Override
-    public List<Review> getReviewsOnId(String id) throws Exception {
-        Host h = hostRepository.findById(id)
-                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
-        return h.getReviews();
+    public List<Review> getReviewsOnId(String id) {
+        Optional<Host> h = hostRepository.findById(id);
+        if(h.isEmpty()){
+            return null;
+        }
+        Host host = h.get();
+        return host.getReviews();
     }
 
     @Override
-    public List<BookAt> findSchedule(String id) throws Exception {
-        Host h = hostRepository.findById(id)
-                .orElseThrow(() -> new Exception("Host not exist with id :" + id));
-        return h.getBooked_at();
+    public List<BookAt> findSchedule(String id) {
+        Optional<Host> h = hostRepository.findById(id);
+        if(h.isEmpty()){
+            return null;
+        }
+        Host host = h.get();
+        return host.getBooked_at();
     }
     @Override
     public Page<Host> findAllSort(int pageNumber, int pageSize, String sortBy, String sortDir) {
@@ -141,6 +154,28 @@ public class HostServiceImpl implements HostService {
             }
         }
         return userId;
+    }
+
+    @Override
+    public List<Host> getHostsByUser(String username) {
+        return hostRepository.findAllByUsername(username);
+    }
+
+    @Override
+    public List<String> getAllEmails(String username) {
+       List<String> allEmails = new ArrayList<>();
+       List<Host> host = getHostsByUser(username);
+        for (Host h : host) {
+            List<BookAt> bookAts = h.getBooked_at();
+            for (BookAt b:
+                 bookAts) {
+                String name = b.getUsername();
+                Optional<User> u = userRepository.findByUsername(name);
+                User user = u.get();
+                allEmails.add(user.getEmail());
+            }
+        }
+        return allEmails;
     }
 
 }

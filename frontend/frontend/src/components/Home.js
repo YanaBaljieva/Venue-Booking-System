@@ -84,9 +84,7 @@ const Home = () => {
 
     const findAllHosts = useCallback((currentPage)=> {
        currentPage -= 1;
-      // let sortDir = sortToggle ? "asc" : "desc";
         axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
-      //  axios.get("http://localhost:8080/api/sort?pageNumber="+currentPage+"&pageSize="+hostsPerPage+"&sortBy="+sortBy+"&sortDir="+sortDir)
         .then(response => response.data)
         .then(data => {
             setHosts(data.content);
@@ -145,7 +143,7 @@ const Home = () => {
                     placeholder="Search..."
                     name="search"
                     value={search}
-                    className={"info-border bg-dark text-white"}
+                    className={"searchbar"}
                     onChange={searchChange}
                 />
                 <Button
@@ -209,14 +207,12 @@ const Home = () => {
 
 
                 hosts.map((item, index) => (
-                    <Container>
+                    <Container key={index}>
                         <Link to={"/view/"+item.id}>
                             <Card className="jumbotron custom-jumbotron">
                                 <Card.Body>
-                                        <div key={index}>
-                                            <div>{item.name}</div>
-                                            <div>{item.city}</div>
-                                        </div>
+                                    <div>{item.name}</div>
+                                    <div>{item.city}</div>
                                 </Card.Body>
                             </Card>
                         </Link>

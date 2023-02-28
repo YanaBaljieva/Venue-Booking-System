@@ -47,7 +47,7 @@ const ViewHost = () => {
                 error.toString();
                 setMessage(resMessage);
                 setSuccessful(false);
-             }                                                            );
+             });
 
         } catch (error) {
           console.error(error);
@@ -110,14 +110,24 @@ const ViewHost = () => {
     };
 
     useEffect(() => {
-      const seeSchedule = async () => {
-          const result = await axios.get("http://localhost:8080/api/schedule/"+urlElements);
+      const seeSchedule = () => {
 
-              let data = result.data;
-              data = data.map(date =>
-                new Date(date)
-            );
-              setDates(data);
+         axios.get("http://localhost:8080/api/schedule/" + urlElements)
+           .then(result => {
+             const dates = result.data.map(date => new Date(date.date));
+             setDates(dates);
+           })
+           .catch(error => {
+             console.error("Error fetching dates:", error);
+           });
+//
+//          const result = await axios.get("http://localhost:8080/api/schedule/"+urlElements);
+//
+//              let data = result.data;
+//              data = data.map(date =>
+//                new Date(date.date)
+//              );
+//              setDates(data);
           };
       seeSchedule();
 
@@ -126,11 +136,14 @@ const ViewHost = () => {
         const view = async () => {
             await axios.get("http://localhost:8080/api/hosts/"+ urlElements)
             .then(response => setHost(response.data))
-            .catch(err => console.error(err))
-
+            .catch(err => {
+                console.error(err);
+                window.location.replace("/home");
+            });
         };
+
         view();
-    }, [urlElements]);
+    }, [urlElements, dates]);
 
  useEffect(() => {
     const fetchData = async () => {

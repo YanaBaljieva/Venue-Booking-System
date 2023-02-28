@@ -29,11 +29,11 @@ public class BookAt {
         this.username = username;
     }
 
-    public LocalDate getAddress() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setAddress(LocalDate date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

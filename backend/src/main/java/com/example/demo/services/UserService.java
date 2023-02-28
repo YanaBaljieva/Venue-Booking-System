@@ -11,5 +11,5 @@ public interface UserService {
     Optional<User> findViaId(String id);
     void deleteById(String id);
 
-
+  //  String getEmail(String username);
 }

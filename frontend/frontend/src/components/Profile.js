@@ -1,8 +1,31 @@
-import React, {useState, useCallback} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import AuthService from "../services/auth.service";
+import { Card, Container } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
+  const [hosts, setHosts] = useState([]);
+  const [emails, setEmails] = useState([]);
+
+    const getEmails = async () => {
+
+       hosts.map(async (host) => {
+           const response = await axios.get("http://localhost:8080/api/get_emails/" + currentUser.username)
+           setEmails(response.data);
+       })
+  };
+
+  const getHosts = async () => {
+       const response = await axios.get("http://localhost:8080/api/profile_host/" + currentUser.username)
+       setHosts(response.data);
+       getEmails();
+  };
+
+
+    useEffect (() => {
+        getHosts();
+    }, []);
 
   return (
     <div className="container">
@@ -22,6 +45,40 @@ const Profile = () => {
         {currentUser.roles &&
           currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
       </ul>
+
+      <div>
+        <h2><strong>Hosted places</strong></h2>
+        { hosts.length === 0 ?
+                <Card className="jumbotron custom-jumbotron">
+                    <Card.Body>
+                        <div>
+                            <h3>No resuls found.</h3>
+                        </div>
+                    </Card.Body>
+                </Card> :
+
+
+                hosts.map((item, index) => (
+                    <Container key={index}>
+                        <Link to={"/view/"+item.id}>
+                            <Card className="jumbotron custom-jumbotron">
+
+                                <Card.Body>
+                                    <div>{item.name}</div>
+                                    {item.booked_at.map((stuff,i) => (
+                                        <div key={i}>
+                                            <div>{stuff.date}</div>
+                                            <div>{stuff.username}</div>
+                                            <div>{emails[i]}</div>
+                                        </div>
+                                    ))}
+                                </Card.Body>
+                            </Card>
+                        </Link>
+                    </Container>
+              ))}
+
+      </div>
     </div>
   );
 };

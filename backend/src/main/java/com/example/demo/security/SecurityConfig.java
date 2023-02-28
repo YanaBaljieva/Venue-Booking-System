@@ -67,6 +67,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/hosts/{id}").permitAll()
                         .requestMatchers("/api/schedule/**").permitAll()
                         .requestMatchers("/api/get_rev/**").permitAll()
+                        .requestMatchers("/api/profile_host/**").permitAll()
+                        .requestMatchers("/api/get_emails/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
