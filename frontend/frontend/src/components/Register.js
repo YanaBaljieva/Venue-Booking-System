@@ -3,7 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-//import { Button } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 
 import AuthService from "../services/auth.service";
 
@@ -102,11 +102,13 @@ const Register = (props) => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
+    <Container className="col-md-12">
+      <Card className="card card-container">
+        <Card.Body>
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
+          style={{"margin-bottom": "30px"}}
           className="profile-img-card"
         />
 
@@ -150,7 +152,7 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Sign Up</button>
+                <button className="btn-forms btn-block">Sign Up</button>
               </div>
             </div>
           )}
@@ -169,8 +171,9 @@ const Register = (props) => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      </div>
-    </div>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 };
 

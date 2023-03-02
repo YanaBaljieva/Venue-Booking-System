@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {  Routes, Route, Link, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import AuthVerify from "./common/AuthVerify";
+//import AuthVerify from "./common/AuthVerify";
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import PrivateRoute from "./common/PrivateRoute";
@@ -15,7 +15,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
 
 import EventBus from "./common/EventBus";
 
@@ -47,7 +46,7 @@ const App = () => {
     <div>
       <Navbar className="navbar navbar-expand ">
         <Link to={"/"} className="navbar-brand">
-          Test
+          Demo
         </Link>
         <Navbar className="navbar-nav mr-auto">
           <Nav.Item className="nav-item">
@@ -62,7 +61,7 @@ const App = () => {
             <Nav.Item className="nav-item">
               <Button className="nav-button" variant="secondary">
                 <Link to={"/add"} className="nav-link">
-                  Add Host
+                  Become a host
                 </Link>
               </Button>
             </Nav.Item>
@@ -120,7 +119,6 @@ const App = () => {
               <Route path="/add" element={<AddHost />} />
           </Route>
           <Route path="/view/*" element={<ViewHost />} />
-          <Route path="/user" element={<BoardUser />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </Container>

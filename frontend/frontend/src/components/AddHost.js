@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-//import { Button } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
 
 
@@ -93,8 +93,10 @@ const AddHost = () => {
   };
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
+    <Container className="col-md-12">
+      <Card className="card card-container">
+        <Card.Body>
+
         <Form onSubmit={handleAddHost} ref={form}>
           {!successful && (
             <div>
@@ -168,7 +170,7 @@ const AddHost = () => {
                       />
                    </div>
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Add host</button>
+                <button className="btn-forms btn-primary btn-block">Add host</button>
               </div>
             </div>
           )}
@@ -187,8 +189,9 @@ const AddHost = () => {
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
-      </div>
-    </div>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 };
 

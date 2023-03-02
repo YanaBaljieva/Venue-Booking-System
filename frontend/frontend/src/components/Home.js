@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-//import UserService from "../services/user.service";
 import axios from 'axios';
-import { InputGroup, Form, Button, Container } from 'react-bootstrap';
+import { InputGroup, Form, Button, Container, Dropdown, DropdownButton } from 'react-bootstrap';
 import { Card, FormControl } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import '../App.css';
+
 
 const Home = () => {
 
@@ -15,12 +15,7 @@ const Home = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
     const [sortToggle, setSortToggle] = useState(false);
-    const [open, setOpen] = useState(false);
     const [sortBy, setSortBy] = useState("date");
-
-    const handleOpen = () => {
-        setOpen(!open);
-    };
 
     const handleSort = (handleSortBy, handleSortToggle) => {
         setSortToggle(handleSortToggle);
@@ -31,68 +26,36 @@ const Home = () => {
 
     const changePage = event => {
         let targetPage = parseInt(event.target.value);
-        if (search) {
-            searchData(targetPage);
-        } else {
-            findAllHosts(targetPage);
-        }
+        searchData(targetPage);
         setCurrentPage(targetPage);
     };
 
     const firstPage = () => {
         let firstPage = 1;
         if (currentPage > firstPage) {
-            if (search) {
-                searchData(firstPage);
-            } else {
-                findAllHosts(firstPage);
-            }
+            searchData(firstPage);
         }
     };
 
     const prevPage = () => {
         let prevPage = 1;
         if (currentPage > prevPage) {
-            if (search) {
-                searchData(currentPage - prevPage);
-            } else {
-                findAllHosts(currentPage - prevPage);
-            }
+            searchData(currentPage - prevPage);
         }
     };
 
     const lastPage = () => {
         let condition = Math.ceil(totalElements / hostsPerPage);
         if (currentPage < condition) {
-            if (search) {
-                searchData(condition);
-            } else {
-                findAllHosts(condition);
-            }
+            searchData(condition);
         }
     };
 
     const nextPage = () => {
         if (currentPage < Math.ceil(totalElements / hostsPerPage)) {
-            if (search) {
-                searchData(currentPage + 1);
-            } else {
-                findAllHosts(currentPage + 1);
-            }
+           searchData(currentPage + 1);
         }
     };
-
-    const findAllHosts = useCallback((currentPage)=> {
-       currentPage -= 1;
-        axios.get("http://localhost:8080/api/all_places?page="+currentPage+"&size="+hostsPerPage)
-        .then(response => response.data)
-        .then(data => {
-            setHosts(data.content);
-            setTotalPages(data.totalPages);
-            setTotalElements(data.totalElements);
-            setCurrentPage(data.number + 1);
-        })
-    }, [hostsPerPage]);
 
     const searchChange = event => {
         setSearch(event.target.value);
@@ -100,7 +63,7 @@ const Home = () => {
 
     const cancelSearch = () => {
         setSearch('');
-        findAllHosts(currentPage);
+        handleSort('date', false);
     };
 
     const searchData = useCallback((currentPage) => {
@@ -130,11 +93,8 @@ const Home = () => {
     useEffect(() => {
         if(search || sortToggle || sortBy){
             searchData(currentPage);
-        } else {
-            findAllHosts(currentPage);
         }
-
-    }, [currentPage, findAllHosts, searchData, search, sortToggle, sortBy]);
+    }, [currentPage, searchData, search, sortToggle, sortBy]);
 
     return (
         <Container>
@@ -149,55 +109,46 @@ const Home = () => {
                 <Button
                     variant="outline-secondary"
                     type="button"
-                    className={"info-border bg-dark text-white"}
+                    className={"search-btn text-white"}
                     value={search}
                     onClick={searchData} >Search
                 </Button>
                 <Button
                     variant="outline-danger"
                     type="button"
-                    className={"info-border bg-dark text-white"}
-                    onClick={cancelSearch} >Remove
+                    className={"reset-btn text-white"}
+                    onClick={cancelSearch} >Reset
                 </Button>
-                <div className="dropdown">
-                    <Button
-                        type="button"
-                        onClick={handleOpen}>Dropdown
-                    </Button>
-                        {open ? (
-                            <ul className="menu">
-                            <li className="menu-item">
-                                <Button
-                                    type="button"
-                                    onClick={() => handleSort('date', false)}>Last added
-                                </Button>
-                              </li>
-                              <li className="menu-item">
-                                <Button
-                                    type="button"
-                                    onClick={() => handleSort('date', true)}>First added
-                                </Button>
-                              </li>
-                              <li className="menu-item">
-                                <Button
-                                    type="button"
-                                    onClick={() => handleSort('price', true)}>Price ↑
-                                </Button>
-                              </li>
-                              <li className="menu-item">
-                                <Button
-                                    type="button"
-                                    onClick={() => handleSort('price', false)}>Price ↓
-                                </Button>
-                              </li>
-                              </ul>
-                        ) : null}
-                </div>
             </InputGroup>
-
+            <Dropdown className="dropdown" >
+                <Dropdown.Toggle className="dropdown-toggle">
+                         Filter
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="menu">
+                  <Dropdown.Item
+                    className="dropdown-item"
+                    onClick={() => handleSort('date', false)}>
+                            Last added
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="dropdown-item"
+                    onClick={() => handleSort('date', true)}>
+                        First added
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="dropdown-item"
+                    onClick={() => handleSort('price', true)}>
+                        Price ↑
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="dropdown-item"
+                    onClick={() => handleSort('price', false)}>Price ↓
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
 
             { hosts.length === 0 ?
-                <Card className="jumbotron custom-jumbotron">
+                <Card className="jumbotron custom-jumbotron-notfound">
                     <Card.Body>
                         <div>
                             <h3>No resuls found.</h3>
@@ -205,60 +156,68 @@ const Home = () => {
                     </Card.Body>
                 </Card> :
 
-
                 hosts.map((item, index) => (
                     <Container key={index}>
-                        <Link to={"/view/"+item.id}>
-                            <Card className="jumbotron custom-jumbotron">
-                                <Card.Body>
-                                    <div>{item.name}</div>
-                                    <div>{item.city}</div>
-                                </Card.Body>
-                            </Card>
-                        </Link>
-                    </Container>
+                        <Card className="jumbotron custom-jumbotron">
+                            <Card.Body>
+                                <Container className="text-containers">
+                                <Container className="text-container">
+                                    <Link className="custom-jumbotron-link" to={"/view/"+item.id}>
+                                        <div className="place-name">{item.name}</div>
+                                    </Link>
+                                    <div>{item.city}, {item.country}</div>
 
-              ))}
+                                </Container>
+                                <Container className="text-container2">
+                                </Container>
+                                </Container>
+                            </Card.Body>
+                        </Card>
+                    </Container>
+                ))}
 
             { hosts.length === 0 ? null :
-                <Card.Footer className="container">
-                    <div style={{"float":"left"}}>
+                <Card.Footer className="container-pagination">
+                    <div style={{"float":"left", "color":"white", "padding":"7px"}}>
                         Showing Page {currentPage} of {totalPages}
                     </div>
                     <div style={{"float":"right"}}>
-                        <InputGroup size="sm">
+                        <InputGroup className="pagination">
                             <Button
                                 type="button"
-                                variant="outline-info"
+                                className="button-pagination"
                                 disabled={currentPage === 1 ? true : false}
                                 onClick={firstPage}>
                               First
                             </Button>
                             <Button
                                 type="button"
-                                variant="outline-info"
+                                className="button-pagination"
                                 disabled={currentPage === 1 ? true : false}
                                 onClick={prevPage}>
-                                     Prev
+                              Prev
                             </Button>
                             <FormControl
                                 name="currentPage"
+                                className="select-page"
+                                style={{"text-align":"center"}}
                                 value={currentPage}
+                                disabled={totalPages === 1 ? true : false}
                                 onChange={changePage}/>
-                                    <Button
-                                        type="button"
-                                        variant="outline-info"
-                                        disabled={currentPage === totalPages ? true : false}
-                                        onClick={nextPage}>
-                                             Next
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        variant="outline-info"
-                                        disabled={currentPage === totalPages ? true : false}
-                                        onClick={lastPage}>
-                                             Last
-                                    </Button>
+                            <Button
+                                type="button"
+                                className="button-pagination"
+                                disabled={currentPage === totalPages ? true : false}
+                                onClick={nextPage}>
+                              Next
+                            </Button>
+                            <Button
+                                type="button"
+                                className="button-pagination"
+                                disabled={currentPage === totalPages ? true : false}
+                                onClick={lastPage}>
+                              Last
+                            </Button>
                         </InputGroup>
                     </div>
                 </Card.Footer>

@@ -6,7 +6,7 @@ body {
     background-color:#20343B;
 }
 .navbar {
-    background-color: #E66F3D;
+    background-color: #E8642C;
     height: 80px;
 }
 .nav-button {
@@ -25,25 +25,112 @@ body {
 }
 
 .searchbar {
-    border-radius: 8px !important;
+    border-radius: 4px !important;
     padding-bottom: 10px;
     padding-top: 10px;
     margin-right: 10px;
     margin-top: 10px;
     background-color: #CFD3D1 !important;
+    color: #404031 !important;
+    font-weight: 500;
+}
+.searchbar::-webkit-input-placeholder {
+    color: #404031;
+    font-weight: 500;
+}
+.input-group {
+  width: 60% !important;
+}
+
+.search-btn {
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 40px;
+    background-color: #20343B;
+    border-color: #245B63 !important;
+}
+.search-btn:hover {
+      background-color: #245B63;
+      transition: 0.7s;
+}
+
+.searchbar:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.reset-btn {
+    margin-top: 10px;
+    width: 72.63px;
+    height: 40px;
+    background-color: #20343B;
+    border-color: #A02727 !important;
+}
+
+.reset-btn:hover {
+    background-color: #A02727;
+    transition: 0.7s;
 }
 
 .card-container.card {
   max-width: 350px !important;
   padding: 40px 40px;
+  background-color: #245B63;
+  color: white;
 }
 
 .custom-jumbotron {
-  margin-bottom: 2rem;
-  width:80%;
+  margin-bottom: 1rem;
+  width: 90%;
+  height: 400px;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
+  color: white;
+  background-color: #245B63 !important;
+  border-radius: 4px !important;
+}
+
+.custom-jumbotron-notfound {
+  margin-bottom: 1rem;
+  width: 90%;
+  display: flex;
+  color: white;
+  background-color: #245B63 !important;
+  border-radius: 4px !important;
+}
+
+.custom-jumbotron-link, .custom-jumbotron-link:hover{
+  color: white;
+}
+
+.text-containers {
+    display: flex;
+}
+
+.text-container {
+  width: 400px;
+  height: 300px;
+  margin-left: 1px;
+  padding-top: 8px;
+
+}
+
+.text-container2 {
+  width: 400px;
+  height: 300px;
+  margin-left: 20px;
+  margin-top: 3px;
+  border-radius: 4px;
+  background-color: #CFD3D1;
+}
+
+
+.place-name {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 7px;
 }
 
 .card {
@@ -69,9 +156,23 @@ body {
   border-radius: 50%;
   }
 
-
   .dropdown {
     position: relative;
+    margin-top: 20px;
+  }
+  .dropdown-toggle {
+    background-color: #CFD3D1 !important;
+    border-color: #245B63;
+    color: #404031 !important;
+    font-weight: 500;
+    padding-right: 125px !important;
+  }
+
+  .dropdown-toggle:hover {
+    background-color: #CFD3D1 !important;
+    border-color: #245B63;
+    font-weight: 500;
+    color: #404031 !important;
   }
 
   .menu {
@@ -80,31 +181,87 @@ body {
     list-style-type: none;
     margin: 5px 0;
     padding: 0;
-
     border: 1px solid grey;
     width: 150px;
   }
 
-  .menu > li {
-    margin: 0;
-
-    background-color: white;
-  }
-
-  .menu > li:hover {
+  .dropdown-item:hover {
     background-color: lightgray;
+    color: black;
   }
 
-  .menu > li > button {
+  .dropdown-item {
     width: 100%;
     height: 100%;
     text-align: left;
-
     background: none;
     color: inherit;
     border: none;
     padding: 5px;
+    padding-left: 10px;
     margin: 0;
     font: inherit;
     cursor: pointer;
   }
+
+.container-pagination {
+    height: 50px;
+    background-color: #245B63;
+    padding-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 4px !important;
+}
+
+.button-pagination, .select-page {
+    background-color: #E8642C !important;
+    color: white;
+    border-color: #E8642C;
+    height: 40px !important;
+    width: 80px !important;
+    border-radius: 4px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.select-page:disabled {
+    opacity:0.65;
+}
+
+.button-pagination:disabled, .select-page:disabled {
+    background-color: #E8642C !important;
+    color: white;
+    border-color: #E8642C;
+    height: 40px !important;
+    width: 80px !important;
+    border-radius: 4px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.pagination {
+    width: 100% !important;
+}
+
+.btn-forms {
+    background-color: #E8642C;
+    color: white;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: #E8642C;
+    border-radius: 4px;
+    height: 42px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.invalid-feedback {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 2.5px !important;
+    background-color: #faf9f7;
+}
