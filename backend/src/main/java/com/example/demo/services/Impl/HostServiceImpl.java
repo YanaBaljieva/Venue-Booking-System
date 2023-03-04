@@ -158,24 +158,34 @@ public class HostServiceImpl implements HostService {
 
     @Override
     public List<Host> getHostsByUser(String username) {
-        return hostRepository.findAllByUsername(username);
-    }
-
-    @Override
-    public List<String> getAllEmails(String username) {
-       List<String> allEmails = new ArrayList<>();
-       List<Host> host = getHostsByUser(username);
-        for (Host h : host) {
+        List<Host> hosts = hostRepository.findAllByUsername(username);
+        for (Host h : hosts) {
             List<BookAt> bookAts = h.getBooked_at();
-            for (BookAt b:
-                 bookAts) {
+            for (BookAt b: bookAts) {
                 String name = b.getUsername();
                 Optional<User> u = userRepository.findByUsername(name);
                 User user = u.get();
-                allEmails.add(user.getEmail());
+                b.setEmail(user.getEmail());
             }
         }
-        return allEmails;
+        return hosts;
     }
+
+//    @Override
+//    public List<String> getAllEmails(String username) {
+//       List<String> allEmails = new ArrayList<>();
+//       List<Host> host = getHostsByUser(username);
+//        System.out.println(host.size());
+//        for (Host h : host) {
+//            List<BookAt> bookAts = h.getBooked_at();
+//            for (BookAt b: bookAts) {
+//                String name = b.getUsername();
+//                Optional<User> u = userRepository.findByUsername(name);
+//                User user = u.get();
+//                allEmails.add(user.getEmail());
+//            }
+//        }
+//        return allEmails;
+//    }
 
 }

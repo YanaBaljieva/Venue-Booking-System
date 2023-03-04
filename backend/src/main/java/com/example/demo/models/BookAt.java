@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class BookAt {
     @Id
     private String id;
-
+    private String email;
     private String username;
     private LocalDate date;
 
@@ -35,6 +35,14 @@ public class BookAt {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public BookAt(String username, LocalDate date) {

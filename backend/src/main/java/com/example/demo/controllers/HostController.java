@@ -104,15 +104,14 @@ public class HostController{
         return hostRepoService.getReviewsOnId(hostId);
     }
 
-    //hostname, booked at date, username, user email,
     @GetMapping("/profile_host/{username}")
     public List<Host> getHostByUsername(@PathVariable(value = "username") String username){
         return hostRepoService.getHostsByUser(username);
     }
-    @GetMapping("/get_emails/{username}")
-    public List<String> getEmails(@PathVariable(value = "username") String username){
-        return hostRepoService.getAllEmails(username);
-    }
+//    @GetMapping("/get_emails/{username}")
+//    public List<String> getEmails(@PathVariable(value = "username") String username){
+//        return hostRepoService.getAllEmails(username);
+//    }
 
 }
 

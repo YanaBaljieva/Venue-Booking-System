@@ -155,122 +155,154 @@ const ViewHost = () => {
 
     return (
          <Container>
-
              <Card className="jumbotron custom-jumbotron">
                 <Card.Body>
-                    <h2>Object Details</h2>
-                        <p>ID: {host.id}</p>
-                        <p>Name: {host.name}</p>
-                        <p>Description: {host.description}</p>
-
+                    <Container className="text-containers">
+                      <Container className="text-container">
+                        <h3 style={{"marginBottom":"30px"}}>{host.name}</h3>
+                            <p className="paragraph-details">{host.address}</p>
+                            <p className="paragraph-details">{host.city}, {host.country}</p>
+                            <p className="paragraph-details">{host.price}</p>
+                      </Container>
+                      <Container className="text-container2">
+                      </Container>
+                    </Container>
                 </Card.Body>
              </Card>
-             <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                minDate={new Date()}
-                maxDate={addMonths(new Date(), 5)}
-                showDisabledMonthNavigation
-                excludeDates={dates}
-                placeholderText="Select a date other than today or yesterday"/>
-                <Button onClick={reserve}>Reserve</Button>
-                { reserveMessage && (
-                    <div className="form-group">
-                        <div
-                            className={
-                            reserveSuccessful ? "alert alert-success" : "alert alert-danger"
-                             }
-                            role="alert"
-                            >
-                            {reserveMessage}
-                        </div>
-                    </div>
-                  )
-                }
-         <Container>
-              <Row className="justify-content-md-center">
-                <Col md="6">
-                    <div className="d-flex align-items-center mb-3">
-                            <FontAwesomeIcon
-                              icon={faStar}
-                              className={rating >= 1 ? "text-warning" : "text-muted"}
-                              onClick={() => handleStarClick(1)}
-                            />
-                            <FontAwesomeIcon
-                              icon={faStar}
-                              className={rating >= 2 ? "text-warning" : "text-muted"}
-                              onClick={() => handleStarClick(2)}
-                            />
-                            <FontAwesomeIcon
-                              icon={faStar}
-                              className={rating >= 3 ? "text-warning" : "text-muted"}
-                              onClick={() => handleStarClick(3)}
-                            />
-                            <FontAwesomeIcon
-                              icon={faStar}
-                              className={rating >= 4 ? "text-warning" : "text-muted"}
-                              onClick={() => handleStarClick(4)}
-                            />
-                            <FontAwesomeIcon
-                              icon={faStar}
-                              className={rating >= 5 ? "text-warning" : "text-muted"}
-                              onClick={() => handleStarClick(5)}
-                            />
-                    </div>
-                  <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="comment">
-                      <Form.Label>Comment:</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows="3"
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                      />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                  </Form>
-                  { message && (
-                    <div className="form-group">
-                        <div
-                            className={
-                            successful ? "alert alert-success" : "alert alert-danger"
-                             }
-                            role="alert"
-                            >
-                            {message}
-                        </div>
-                    </div>
-                  )
-                }
-
-                </Col>
-              </Row>
-            </Container>
-            <Container>
-                  <Row className="justify-content-md-center">
-                    <Col md="6">
-                      <ListGroup variant="flush">
-                        {reviews.map((review, index) => (
-                          <ListGroup.Item key={index} className="d-flex">
-                            {[...Array(5)].map((star, i) => {
-                              const ratingValue = i + 1;
-                              return (
-                                <FontAwesomeIcon
-                                  key={i}
-                                  icon={faStar}
-                                  className={ratingValue <= review.rating ? "text-warning" : "text-muted"}
-                                />
-                              );
-                            })}
-                            <p className="ml-3">{review.content}</p>
-                          </ListGroup.Item>
-                        ))}
-                      </ListGroup>
-                    </Col>
-                  </Row>
+             <Container className="details-description">
+                <Container style={{"width":"95%"}}>
+                  <h3 style={{"marginBottom":"35px"}}>Description:</h3>
+                  <p>{host.description}</p>
                 </Container>
+             </Container>
+             <Container className="reserve-review">
+                 <Container className="reserve">
+                     <h3 style={{"marginBottom":"35px", "color":"white"}}>View availability</h3>
+                     <DatePicker
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        minDate={new Date()}
+                        className="date-picker"
+                        maxDate={addMonths(new Date(), 5)}
+                        showDisabledMonthNavigation
+                        excludeDates={dates}
+                        placeholderText="Select a date for reservation"/>
+                        <Button className="reserve-btn" onClick={reserve}>Reserve</Button>
+                        { reserveMessage && (
+                            <div className="form-group">
+                                <div
+                                    className={
+                                    reserveSuccessful ? "alert alert-success" : "alert alert-danger"
+                                     }
+                                    role="alert"
+                                    >
+                                    {reserveMessage}
+                                </div>
+                            </div>
+                          )
+                        }
+                    </Container>
+
+                   <Container className="review-container">
+                       <h3 style={{"marginBottom":"20px","color":"white"}}>
+                        You’ve been there? Write your opinion:</h3>
+                      <Row>
+                        <Col md="6">
+                            <div className="review-stars d-flex align-items-center fa-2x mb-3">
+                                    <FontAwesomeIcon
+                                      icon={faStar}
+                                      className={rating >= 1 ? "text-warning" : "text-muted"}
+                                      onClick={() => handleStarClick(1)}
+                                    />
+                                    <FontAwesomeIcon
+                                      icon={faStar}
+                                      className={rating >= 2 ? "text-warning" : "text-muted"}
+                                      onClick={() => handleStarClick(2)}
+                                    />
+                                    <FontAwesomeIcon
+                                      icon={faStar}
+                                      className={rating >= 3 ? "text-warning" : "text-muted"}
+                                      onClick={() => handleStarClick(3)}
+                                    />
+                                    <FontAwesomeIcon
+                                      icon={faStar}
+                                      className={rating >= 4 ? "text-warning" : "text-muted"}
+                                      onClick={() => handleStarClick(4)}
+                                    />
+                                    <FontAwesomeIcon
+                                      icon={faStar}
+                                      className={rating >= 5 ? "text-warning" : "text-muted"}
+                                      onClick={() => handleStarClick(5)}
+                                    />
+                            </div>
+
+                          <Form onSubmit={handleSubmit}>
+                            <Form.Group controlId="comment">
+                              <Form.Control
+                                className="comment-content"
+                                as="textarea"
+                                rows="3"
+                                placeholder="Comment"
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                              />
+                            </Form.Group>
+                            <Container className="review-post" style={{"textAlign":"right"}}>
+                            <Button style={{"marginRight":"10px"}}className="comment-btn" type="submit">
+                              Submit
+                            </Button>
+                            </Container>
+                          </Form>
+
+                          { message && (
+                            <div className="form-group">
+                                <div
+                                    className={
+                                    successful ? "alert alert-success" : "alert alert-danger"
+                                     }
+                                    role="alert"
+                                    >
+                                    {message}
+                                </div>
+                            </div>
+                          )
+                        }
+
+                        </Col>
+                      </Row>
+                   </Container>
+                </Container>
+            { reviews.length !== 0 ?
+                <Container>
+                  <h3 style={{"color":"white", "marginLeft":"60px", "marginTop":"60px"}}>Reviews</h3>
+                  <Container style={{"marginTop":"35px"}} className="jumbotron custom-jumbotron2">
+
+
+                          <Container className="display-review">
+                            { reviews.map((review, index) => (
+                              <Container style={{"backgroundColor":"#245B63", "display":"flex"}} key={index}>
+
+                                {[...Array(5)].map((star, i) => {
+                                  const ratingValue = i + 1;
+                                  return (
+                                    <FontAwesomeIcon
+                                      key={i}
+                                      icon={faStar}
+                                      className={ratingValue <= review.rating ? "text-warning fa-lg" : "text-muted fa-lg"}
+                                    />
+                                  );
+                                })}
+
+                                <p className="ml-5 mx-10">{review.username}</p>
+                                <p style={{"wordBreak": "break-word"}} className="ml-5">{review.content}</p>
+                                </Container>
+                            ))}
+                          </Container>
+
+
+                  </Container>
+                </Container>
+            : null}
          </Container>
 
     );

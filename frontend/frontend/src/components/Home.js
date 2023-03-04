@@ -200,7 +200,7 @@ const Home = () => {
                             <FormControl
                                 name="currentPage"
                                 className="select-page"
-                                style={{"text-align":"center"}}
+                                style={{"textAlign":"center"}}
                                 value={currentPage}
                                 disabled={totalPages === 1 ? true : false}
                                 onChange={changePage}/>

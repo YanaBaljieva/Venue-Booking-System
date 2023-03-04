@@ -85,7 +85,6 @@ body {
 .custom-jumbotron {
   margin-bottom: 1rem;
   width: 90%;
-  height: 400px;
   display: flex;
   color: white;
   background-color: #245B63 !important;
@@ -243,12 +242,12 @@ body {
 }
 
 .btn-forms {
-    background-color: #E8642C;
+    background-color: #E8642C !important;
     color: white;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
-    border-color: #E8642C;
+    border-color: #E8642C !important;
     border-radius: 4px;
     height: 42px;
     width: 170px;
@@ -264,4 +263,91 @@ body {
 .form-control {
     border-radius: 2.5px !important;
     background-color: #faf9f7;
+}
+
+.paragraph-details {
+    margin-bottom:8px;
+}
+.details-description {
+    color: white;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    margin-bottom: 40px;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top:50px;
+}
+
+.date-picker {
+  background-color: #faf9f7;
+  width: 215px;
+  height: 40px;
+  border-color: #faf9f7;
+  border-radius: 4px;
+  padding-left: 8px;
+}
+
+.reserve {
+  margin-left: 10px;
+}
+.reserve-btn, .reserve-btn:hover, .comment-btn, comment-btn:hover {
+    background-color: #E8642C !important;
+    color: white;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    border-color: #E8642C !important;
+    border-radius: 4px;
+    height: 42px;
+    width: 84px;
+}
+.reserve-review {
+    display:flex;
+    margin-left: 10px;
+}
+.review-container {
+    margin-left: 40px;
+
+}
+.comment-content {
+    width: 500px;
+    height: 40px;
+}
+.review-post {
+    width: 525px;
+    height: 40px;
+    margin-top: 1px;
+}
+
+.custom-jumbotron2 {
+  margin-bottom: 1rem;
+  width: 90%;
+  display: flex;
+  color: white;
+  background-color: #245B63 !important;
+  border-radius: 4px !important;
+}
+
+.custom-jumbotron-profile {
+  background-color: #245B63 !important;
+  border-radius: 4px !important;
+  width: 45%;
+  word-break: break-word;
+}
+
+.profile-cards {
+    display: flex;
+    color: white;
+    letter-spacing: 0.60px;
+}
+
+.link-to-host {
+    margin-top: 5px;
+}
+.reservations-view {
+    word-break: break-word;
+    justify-content: space-between;
+    display:flex;
+    letter-spacing: 0.60px;
 }

@@ -76,7 +76,7 @@ const Login = () => {
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
-          style={{"margin-bottom": "30px"}}
+          style={{"marginBottom": "30px"}}
           className="profile-img-card"
         />
         <Form onSubmit={handleLogin} ref={form}>

@@ -29,5 +29,5 @@ public interface HostService {
     String getUsernameByCookie(HttpServletRequest request);
     List<Host> getHostsByUser(String username);
 
-    List<String> getAllEmails(String username);
+   // List<String> getAllEmails(String username);
 }
