@@ -20,8 +20,7 @@ public class Host {
 
     private List<Review> reviews;
     private List<BookAt> booked_at;
-    //add photos
-    private Date date; // updated can be put, or approved date
+    private Date date;
 
     private String description;
     private String username;

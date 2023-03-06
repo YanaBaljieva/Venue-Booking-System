@@ -1,4 +1,4 @@
-import { Card, Container, Button, Row, Col, Form, Alert, ListGroup } from 'react-bootstrap';
+import { Card, Container, Button, Row, Col, Form } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import React from 'react';
 import { addMonths } from 'date-fns';
@@ -12,10 +12,7 @@ import AuthService from "../services/auth.service";
 const ViewHost = () => {
 
     const [startDate, setStartDate] = useState(null);
-    const[isSelectedDate, setIsSelectedDate] = useState(false);
-    const[host, setHost] = useState({});
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [error, setError] = useState(false);
+    const [host, setHost] = useState({});
     const [successful, setSuccessful] = useState(false);
     const [reserveSuccessful, setReserveSuccessful] = useState(false);
     const [message, setMessage] = useState("");
@@ -51,7 +48,6 @@ const ViewHost = () => {
 
         } catch (error) {
           console.error(error);
-          setError(true);
         }
       };
     const handleStarClick = (newRating) => {
@@ -62,13 +58,11 @@ const ViewHost = () => {
 
        if (!startDate) {
                  setReserveMessage("please, select a date");
-                 setIsSelectedDate(false);
                  setReserveSuccessful(false);
                  return;
-               }
-        setIsSelectedDate(true);
-        const req = new Date(startDate);
-        req.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
+       }
+       const req = new Date(startDate);
+       req.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
 
        await AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10)).then(
             (response) => {
@@ -87,31 +81,10 @@ const ViewHost = () => {
                       setReserveMessage(resMessage);
                       setReserveSuccessful(false);
                     }
-
        );
-
-
     };
-
-    const StarRating = ({ rating, setRating }) => {
-      const stars = [];
-      for (let i = 1; i <= 5; i++) {
-        stars.push(
-          <span
-            key={i}
-            style={{ color: i <= rating ? "#ffc107" : "#e4e5e9" }}
-            onClick={() => setRating(i)}
-          >
-            &#9733;
-          </span>
-        );
-      }
-      return <div style={{ fontSize: "24px" }}>{stars}</div>;
-    };
-
     useEffect(() => {
       const seeSchedule = () => {
-
          axios.get("http://localhost:8080/api/schedule/" + urlElements)
            .then(result => {
              const dates = result.data.map(date => new Date(date.date));
@@ -120,15 +93,7 @@ const ViewHost = () => {
            .catch(error => {
              console.error("Error fetching dates:", error);
            });
-//
-//          const result = await axios.get("http://localhost:8080/api/schedule/"+urlElements);
-//
-//              let data = result.data;
-//              data = data.map(date =>
-//                new Date(date.date)
-//              );
-//              setDates(data);
-          };
+         };
       seeSchedule();
 
   }, [urlElements]);
@@ -298,8 +263,6 @@ const ViewHost = () => {
                                 </Container>
                             ))}
                           </Container>
-
-
                   </Container>
                 </Container>
             : null}

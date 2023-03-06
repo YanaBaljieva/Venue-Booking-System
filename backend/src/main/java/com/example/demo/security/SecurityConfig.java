@@ -61,14 +61,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/signin/**").permitAll()
                         .requestMatchers("/api/signup/**").permitAll()
                         .requestMatchers("/api/signout/**").permitAll()
-                        .requestMatchers("/api/all_places/**").permitAll()
                         .requestMatchers("/api/search/**").permitAll()
                         .requestMatchers("/api/sort/**").permitAll()
                         .requestMatchers("/api/hosts/{id}").permitAll()
                         .requestMatchers("/api/schedule/**").permitAll()
                         .requestMatchers("/api/get_rev/**").permitAll()
                         .requestMatchers("/api/profile_host/**").permitAll()
-                        .requestMatchers("/api/get_emails/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());

@@ -14,8 +14,6 @@ public class AddHostRequest {
     private String address;
     @NotBlank
     private String price;
-
-    //add photos
     @NotBlank
     private String description;
 
@@ -78,6 +76,5 @@ public class AddHostRequest {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 }

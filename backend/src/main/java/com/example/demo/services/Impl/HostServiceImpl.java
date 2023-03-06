@@ -41,11 +41,6 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public Page<Host> getHosts(Pageable pageable) {
-        return hostRepository.findAll(pageable);
-    }
-
-    @Override
     public ResponseEntity<?> createRev(ReviewRequest reviewRequest, HttpServletRequest request) throws Exception {
         if(reviewRequest.getStars() == 0){
            return ResponseEntity.badRequest().body(new MessageResponse("you must put rating"));
@@ -113,12 +108,6 @@ public class HostServiceImpl implements HostService {
     }
 
     @Override
-    public void deleteViaId(String id) {
-        hostRepository.deleteById(id);
-    }
-
-
-    @Override
     public Page<Host> searchResult(String search, int pageNumber, int pageSize, String sortBy, String sortDir) {
         if(search.isEmpty()){
             return findAllSort(pageNumber, pageSize, sortBy, sortDir);
@@ -171,21 +160,5 @@ public class HostServiceImpl implements HostService {
         return hosts;
     }
 
-//    @Override
-//    public List<String> getAllEmails(String username) {
-//       List<String> allEmails = new ArrayList<>();
-//       List<Host> host = getHostsByUser(username);
-//        System.out.println(host.size());
-//        for (Host h : host) {
-//            List<BookAt> bookAts = h.getBooked_at();
-//            for (BookAt b: bookAts) {
-//                String name = b.getUsername();
-//                Optional<User> u = userRepository.findByUsername(name);
-//                User user = u.get();
-//                allEmails.add(user.getEmail());
-//            }
-//        }
-//        return allEmails;
-//    }
 
 }

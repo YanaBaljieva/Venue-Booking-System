@@ -1,12 +1,9 @@
 import React, { useState, useRef } from "react";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { Container, Card } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
-
 
 const required = (value) => {
   if (!value) {
@@ -17,7 +14,6 @@ const required = (value) => {
     );
   }
 };
-
 
 const AddHost = () => {
 

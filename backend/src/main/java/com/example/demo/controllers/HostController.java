@@ -47,12 +47,6 @@ public class HostController{
         return ResponseEntity.ok().body(new MessageResponse("Host created!"));
     }
 
-    @GetMapping("/all_places")
-    public Page<Host> getAllPlaces(Pageable pageable) {
-        return hostRepoService.getHosts(pageable);
-    }
-
-
     @GetMapping("/hosts/{id}")
     public Object getPlaceById(@PathVariable String id) throws Exception {
 
@@ -61,13 +55,6 @@ public class HostController{
             return ResponseEntity.badRequest().body(new MessageResponse("Host not found with this id!"));
         }
         return ResponseEntity.ok(host);
-    }
-
-    @DeleteMapping("/delete_host/{id}")
-    public ResponseEntity<String> deletePlace(@PathVariable String id) throws Exception {
-
-        hostRepoService.deleteViaId(id);
-        return ResponseEntity.ok("Deleted successfully");
     }
 
     @RequestMapping(value = {"/search", "/search/{keyword}"}, method={RequestMethod.GET})
@@ -108,10 +95,6 @@ public class HostController{
     public List<Host> getHostByUsername(@PathVariable(value = "username") String username){
         return hostRepoService.getHostsByUser(username);
     }
-//    @GetMapping("/get_emails/{username}")
-//    public List<String> getEmails(@PathVariable(value = "username") String username){
-//        return hostRepoService.getAllEmails(username);
-//    }
 
 }
 

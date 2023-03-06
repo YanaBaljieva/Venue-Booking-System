@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {  Routes, Route, Link, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-//import AuthVerify from "./common/AuthVerify";
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import PrivateRoute from "./common/PrivateRoute";

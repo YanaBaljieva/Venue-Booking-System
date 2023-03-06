@@ -7,9 +7,5 @@ import java.util.Optional;
 
 public interface UserService {
     void save(User user);
-    List<User> getUsers();
-    Optional<User> findViaId(String id);
-    void deleteById(String id);
 
-  //  String getEmail(String username);
 }

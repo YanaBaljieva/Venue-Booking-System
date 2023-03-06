@@ -1,6 +1,8 @@
 package com.example.demo.services.Impl;
 
+import com.example.demo.Dto.request.LoginRequest;
 import com.example.demo.Dto.request.SignupRequest;
+import com.example.demo.Dto.response.JwtResponse;
 import com.example.demo.Dto.response.MessageResponse;
 import com.example.demo.models.ERole;
 import com.example.demo.models.Role;
@@ -9,7 +11,17 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -69,26 +82,4 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 
     }
-    @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public Optional<User> findViaId(String id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
-    public void deleteById(String id) {
-        userRepository.deleteById(id);
-    }
-
-//    @Override
-//    public String getEmail(String username) {
-//        Optional<User> u = userRepository.findByUsername(username);
-//        User user = u.get();
-//        return user.getEmail();
-//    }
-
 }
