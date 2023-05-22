@@ -28,25 +28,39 @@ const ViewHost = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      try {
-          await AuthService.postReview(urlElements, rating, comment).then(
-             (response) => {
-                console.log(response.data);
-                setMessage(response.data.message);
-                setSuccessful(true);
-             },
-             (error) => {
-                const resMessage =
-                (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message ||
-                error.toString();
-                setMessage(resMessage);
-                setSuccessful(false);
-             });
+      // try {
+      //     await AuthService.postReview(urlElements, rating, comment).then(
+      //        (response) => {
+      //           console.log(response.data);
+      //           setMessage(response.data.message);
+      //           setSuccessful(true);
+      //        },
+      //        (error) => {
+      //           const resMessage =
+      //           (error.response &&
+      //           error.response.data &&
+      //           error.response.data.message) ||
+      //           error.message ||
+      //           error.toString();
+      //           setMessage(resMessage);
+      //           setSuccessful(false);
+      //        });
 
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+        try {
+          const response = await AuthService.postReview(urlElements, rating, comment);
+          console.log(response.data);
+          setMessage(response.data.message);
+          setSuccessful(true);
         } catch (error) {
+          const resMessage =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setMessage(resMessage);
+          setSuccessful(false);
           console.error(error);
         }
       };
@@ -64,24 +78,37 @@ const ViewHost = () => {
        const req = new Date(startDate);
        req.setMinutes(startDate.getMinutes() - startDate.getTimezoneOffset());
 
-       await AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10)).then(
-            (response) => {
-                      console.log(response.data);
-                      setReserveMessage(response.data.message);
-                      setReserveSuccessful(true);
-                    },
-                    (error) => {
-                      const resMessage =
-                        (error.response &&
-                          error.response.data &&
-                          error.response.data.message) ||
-                        error.message ||
-                        error.toString();
+      //  await AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10)).then(
+      //       (response) => {
+      //                 console.log(response.data);
+      //                 setReserveMessage(response.data.message);
+      //                 setReserveSuccessful(true);
+      //               },
+      //               (error) => {
+      //                 const resMessage =
+      //                   (error.response &&
+      //                     error.response.data &&
+      //                     error.response.data.message) ||
+      //                   error.message ||
+      //                   error.toString();
 
-                      setReserveMessage(resMessage);
-                      setReserveSuccessful(false);
-                    }
-       );
+      //                 setReserveMessage(resMessage);
+      //                 setReserveSuccessful(false);
+      //               }
+      //  );
+      try {
+        const response = await AuthService.reservePlace(urlElements, req.toISOString().slice(0, 10));
+        console.log(response.data);
+        setReserveMessage(response.data.message);
+        setReserveSuccessful(true);
+      } catch (error) {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString();
+        setReserveMessage(resMessage);
+        setReserveSuccessful(false);
+      }
     };
     useEffect(() => {
       const seeSchedule = () => {
@@ -98,13 +125,22 @@ const ViewHost = () => {
 
   }, [urlElements]);
     useEffect(() => {
+        // const view = async () => {
+        //     await axios.get("http://localhost:8080/api/hosts/"+ urlElements)
+        //     .then(response => setHost(response.data))
+        //     .catch(err => {
+        //         console.error(err);
+        //         window.location.replace("/home");
+        //     });
+        // };
         const view = async () => {
-            await axios.get("http://localhost:8080/api/hosts/"+ urlElements)
-            .then(response => setHost(response.data))
-            .catch(err => {
-                console.error(err);
-                window.location.replace("/home");
-            });
+          try {
+            const response = await axios.get("http://localhost:8080/api/hosts/" + urlElements);
+            setHost(response.data);
+          } catch (error) {
+            console.error(error);
+            window.location.replace("/home");
+          }
         };
 
         view();

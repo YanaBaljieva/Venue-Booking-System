@@ -63,7 +63,7 @@ const Profile = () => {
 
       </Container>
       <Container>
-        <h2 style={{"color":"white", "marginTop":"30px", "marginLeft":"35px"}}>Reservations</h2>
+        <h2 style={{"color":"white", "marginTop":"30px", "marginLeft":"35px"}}>Reservations for my places</h2>
         { hosts.length === 0 ?
                 <Card className="jumbotron custom-jumbotron">
                     <Card.Body>
